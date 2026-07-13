@@ -51,8 +51,7 @@ const {
   telegramBotDepsForTest,
   telegramBotRuntimeForTest,
 } = harness;
-const { createTelegramBotCore: createTelegramBotBase, setTelegramBotRuntimeForTest } =
-  await import("./bot-core.js");
+const { createTelegramBotCore: createTelegramBotBase } = await import("./bot-core.js");
 const { MediaFetchError } = await import("./telegram-media.runtime.js");
 
 let createTelegramBot: (
@@ -176,12 +175,11 @@ describe("createTelegramBot media-group skip warning (#55216)", () => {
       createTelegramBotBase({
         ...opts,
         telegramDeps: telegramBotDepsForTest,
+        botRuntime: telegramBotRuntimeForTest,
       });
-    setTelegramBotRuntimeForTest(telegramBotRuntimeForTest);
   });
 
   beforeEach(() => {
-    setTelegramBotRuntimeForTest(telegramBotRuntimeForTest);
     saveRemoteMedia.mockReset();
     saveMediaBuffer.mockReset();
     readRemoteMediaBuffer.mockReset();

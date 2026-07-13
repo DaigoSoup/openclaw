@@ -3,7 +3,7 @@ import { createHash } from "node:crypto";
 import { buildChannelInboundEventContext } from "openclaw/plugin-sdk/channel-inbound";
 import { createLazyRuntimeModule } from "openclaw/plugin-sdk/lazy-runtime";
 import type { BuildTelegramMessageContextParams, TelegramMediaRef } from "./bot-message-context.js";
-import { setTelegramTopicNameStoreFactoryForTest } from "./topic-name-cache.js";
+import { setTelegramTopicNameStoreFactoryForTest } from "./test-support/topic-name-cache.js";
 
 export const baseTelegramMessageContextConfig = {
   agents: { defaults: { model: "anthropic/claude-opus-4-5", workspace: "/tmp/openclaw" } },

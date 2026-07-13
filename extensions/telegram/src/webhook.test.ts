@@ -17,7 +17,7 @@ import {
   type TelegramSpooledReplayDeferredParticipant,
   type TelegramSpooledReplaySettlementHold,
 } from "./bot-processing-outcome.js";
-import { clearTelegramRuntime, setTelegramRuntime } from "./runtime.js";
+import { setTelegramRuntime } from "./runtime.js";
 import type { TelegramRuntime } from "./runtime.types.js";
 import { TELEGRAM_SPOOLED_RETRY_DEAD_LETTER_MIN_AGE_MS } from "./spooled-update-retry-policy.js";
 import {
@@ -25,6 +25,7 @@ import {
   listTelegramSpooledUpdates,
   writeTelegramSpooledUpdate,
 } from "./telegram-ingress-spool.js";
+import { clearTelegramRuntime } from "./test-support/runtime.js";
 
 const handleUpdateSpy = vi.hoisted(() => vi.fn((..._args: unknown[]): unknown => undefined));
 const setWebhookSpy = vi.hoisted(() => vi.fn());

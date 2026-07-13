@@ -111,5 +111,7 @@ export type BuildTelegramMessageContextParams = {
   sessionRuntime?: TelegramMessageContextSessionRuntimeOverrides;
   upsertPairingRequest?: typeof import("openclaw/plugin-sdk/conversation-runtime").upsertChannelPairingRequest;
   /** Global (per-account) handler for sendChatAction 401 backoff (#27092). */
-  sendChatActionHandler: import("./sendchataction-401-backoff.js").TelegramSendChatActionHandler;
+  sendChatActionHandler: ReturnType<
+    typeof import("./sendchataction-401-backoff.js").createTelegramSendChatActionHandler
+  >;
 };

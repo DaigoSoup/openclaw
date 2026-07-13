@@ -4,15 +4,12 @@ import { getTelegramNetworkErrorOrigin } from "./network-errors.js";
 
 const { botCtorSpy, telegramBotDepsForTest, telegramBotRuntimeForTest } =
   await import("./bot.create-telegram-bot.test-harness.js");
-const { createTelegramBotCore: createTelegramBotBase, setTelegramBotRuntimeForTest } =
-  await import("./bot-core.js");
-setTelegramBotRuntimeForTest(
-  telegramBotRuntimeForTest as unknown as Parameters<typeof setTelegramBotRuntimeForTest>[0],
-);
+const { createTelegramBotCore: createTelegramBotBase } = await import("./bot-core.js");
 const createTelegramBot = (opts: import("./bot.types.js").TelegramBotOptions) =>
   createTelegramBotBase({
     ...opts,
     telegramDeps: telegramBotDepsForTest,
+    botRuntime: telegramBotRuntimeForTest,
   });
 
 function createWrappedTelegramClientFetch(

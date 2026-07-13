@@ -16,13 +16,14 @@ import {
   acquireTelegramPollingLease,
   resetTelegramPollingLeasesForTests,
 } from "./polling-lease.js";
-import { clearTelegramRuntime, setTelegramRuntime } from "./runtime.js";
+import { setTelegramRuntime } from "./runtime.js";
 import type { TelegramProbeFn } from "./runtime.types.js";
 import type { TelegramRuntime } from "./runtime.types.js";
 import {
   resetTelegramStartupProbeLimiterForTests,
   withTelegramStartupProbeSlot,
 } from "./startup-probe-limiter.js";
+import { clearTelegramRuntime } from "./test-support/runtime.js";
 
 const probeTelegram = vi.fn();
 const monitorTelegramProvider = vi.fn();

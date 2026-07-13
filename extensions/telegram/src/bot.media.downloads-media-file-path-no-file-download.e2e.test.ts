@@ -4,7 +4,7 @@ import {
   readRemoteMediaBufferSpy,
   setNextSavedMediaPath,
   telegramBotDepsForTest,
-} from "./bot.media.e2e-harness.js";
+} from "./bot.media.test-harness.js";
 import {
   TELEGRAM_TEST_TIMINGS,
   createBotHandler,

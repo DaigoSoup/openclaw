@@ -30,8 +30,9 @@ import {
   TELEGRAM_MESSAGE_CACHE_PERSISTENT_NAMESPACE,
 } from "./message-cache.js";
 import { buildTelegramOpaqueCallbackData } from "./native-command-callback-data.js";
-import { clearTelegramRuntime, setTelegramRuntime } from "./runtime.js";
+import { setTelegramRuntime } from "./runtime.js";
 import type { TelegramRuntime } from "./runtime.types.js";
+import { clearTelegramRuntime } from "./test-support/runtime.js";
 const {
   answerCallbackQuerySpy,
   commandSpy,
@@ -57,14 +58,11 @@ const {
   wasSentByBot,
 } = await import("./bot.create-telegram-bot.test-harness.js");
 const { recordOutboundMessageForPromptContext } = await import("./outbound-message-context.js");
-const {
-  runWithTelegramSpooledReplayUpdate,
-  runWithTelegramUpdateProcessingFrame,
-  withTelegramSpooledReplayUpdate,
-} = await import("./bot-processing-outcome.js");
+const { runWithTelegramSpooledReplayUpdate, runWithTelegramUpdateProcessingFrame } =
+  await import("./bot-processing-outcome.js");
+const { withTelegramSpooledReplayUpdate } = await import("./test-support/spooled-replay.js");
 
 let createTelegramBotBase: typeof import("./bot-core.js").createTelegramBotCore;
-let setTelegramBotRuntimeForTest: typeof import("./bot-core.js").setTelegramBotRuntimeForTest;
 let createTelegramBot: (
   opts: import("./bot.types.js").TelegramBotOptions,
 ) => ReturnType<typeof import("./bot-core.js").createTelegramBotCore>;
@@ -362,8 +360,7 @@ const ORIGINAL_TZ = process.env.TZ;
 
 describe("createTelegramBot", () => {
   beforeAll(async () => {
-    ({ createTelegramBotCore: createTelegramBotBase, setTelegramBotRuntimeForTest } =
-      await import("./bot-core.js"));
+    ({ createTelegramBotCore: createTelegramBotBase } = await import("./bot-core.js"));
   });
   beforeAll(() => {
     process.env.TZ = "UTC";
@@ -389,13 +386,11 @@ describe("createTelegramBot", () => {
         telegram: { dmPolicy: "open", allowFrom: ["*"] },
       },
     });
-    setTelegramBotRuntimeForTest(
-      telegramBotRuntimeForTest as unknown as Parameters<typeof setTelegramBotRuntimeForTest>[0],
-    );
     createTelegramBot = (opts) =>
       createTelegramBotBase({
         ...opts,
         telegramDeps: telegramBotDepsForTest,
+        botRuntime: telegramBotRuntimeForTest,
       });
   });
 

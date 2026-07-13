@@ -23,7 +23,7 @@ type SessionEntry = import("openclaw/plugin-sdk/session-store-runtime").SessionE
 type SessionStore = Record<string, SessionEntry>;
 type LoadSessionStoreFn = (storePath?: string, opts?: unknown) => SessionStore;
 type TelegramBotRuntimeForTest = NonNullable<
-  Parameters<typeof import("./bot.js").setTelegramBotRuntimeForTest>[0]
+  Parameters<typeof import("./bot-core.js").createTelegramBotCore>[0]["botRuntime"]
 >;
 type ResolveTelegramApprovalForTest = NonNullable<TelegramBotDeps["resolveApproval"]>;
 type DispatchReplyWithBufferedBlockDispatcherFn =

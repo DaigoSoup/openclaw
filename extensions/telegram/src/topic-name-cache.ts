@@ -1,66 +1,31 @@
 // Telegram plugin module implements topic name cache behavior.
 import { createHash } from "node:crypto";
 import { readJsonFileWithFallback } from "openclaw/plugin-sdk/json-store";
-import { getTelegramRuntime } from "./runtime.js";
+import {
+  getTelegramTopicNameCacheState,
+  telegramTopicNameCacheBackend,
+  TELEGRAM_TOPIC_NAME_CACHE_MAX_ENTRIES,
+  type TelegramTopicEntry as TopicEntry,
+  type TelegramTopicNameStoreState,
+} from "./topic-name-cache-state.js";
 
-export const TELEGRAM_TOPIC_NAME_CACHE_MAX_ENTRIES = 2_048;
+export { TELEGRAM_TOPIC_NAME_CACHE_MAX_ENTRIES } from "./topic-name-cache-state.js";
 const STORE_NAMESPACE_PREFIX = "telegram.topic-name-cache";
-const TOPIC_NAME_CACHE_STATE_KEY = Symbol.for("openclaw.telegramTopicNameCacheState");
 const DEFAULT_TOPIC_NAME_CACHE_SCOPE = "default";
 
-type TopicEntry = {
-  name: string;
-  iconColor?: number;
-  iconCustomEmojiId?: string;
-  closed?: boolean;
-  updatedAt: number;
-};
-
 type TopicNameStore = Map<string, TopicEntry>;
-
-type TopicNameStoreState = {
-  lastUpdatedAt: number;
-  store: TopicNameStore;
-  hydrated: boolean;
-  hydratePromise?: Promise<void>;
-  persistentStore: TopicNamePersistentStore;
-};
-
-type TopicNameCacheState = {
-  stores: Map<string, TopicNameStoreState>;
-};
-
-type TopicNamePersistentStore = {
-  register(key: string, value: TopicEntry): Promise<void>;
-  entries(): Promise<Array<{ key: string; value: TopicEntry }>>;
-  delete(key: string): Promise<boolean>;
-  clear(): Promise<void>;
-};
-
-let topicNameStoreFactoryForTest: ((namespace: string) => TopicNamePersistentStore) | undefined;
 
 function createTopicNameStore(): TopicNameStore {
   return new Map<string, TopicEntry>();
 }
 
-function createTopicNameStoreState(namespace: string): TopicNameStoreState {
+function createTopicNameStoreState(namespace: string): TelegramTopicNameStoreState {
   return {
     lastUpdatedAt: 0,
     store: createTopicNameStore(),
     hydrated: false,
-    persistentStore: openTopicNamePersistentStore(namespace),
+    persistentStore: telegramTopicNameCacheBackend.openPersistentStore(namespace),
   };
-}
-
-function getTopicNameCacheState(): TopicNameCacheState {
-  const globalStore = globalThis as Record<PropertyKey, unknown>;
-  const existing = globalStore[TOPIC_NAME_CACHE_STATE_KEY] as TopicNameCacheState | undefined;
-  if (existing) {
-    return existing;
-  }
-  const state: TopicNameCacheState = { stores: new Map() };
-  globalStore[TOPIC_NAME_CACHE_STATE_KEY] = state;
-  return state;
 }
 
 function cacheKey(chatId: number | string, threadId: number | string): string {
@@ -82,16 +47,6 @@ export function resolveTopicNameCacheScope(storePath: string): string {
 
 export function resolveTopicNameCacheNamespace(scope: string): string {
   return namespaceForScope(scope);
-}
-
-function openTopicNamePersistentStore(namespace: string): TopicNamePersistentStore {
-  return (
-    topicNameStoreFactoryForTest?.(namespace) ??
-    getTelegramRuntime().state.openKeyedStore<TopicEntry>({
-      namespace,
-      maxEntries: TELEGRAM_TOPIC_NAME_CACHE_MAX_ENTRIES,
-    })
-  );
 }
 
 function evictOldest(store: TopicNameStore): string | undefined {
@@ -125,8 +80,8 @@ function isTopicEntry(value: unknown): value is TopicEntry {
   );
 }
 
-function getTopicStoreState(scope?: string): TopicNameStoreState {
-  const state = getTopicNameCacheState();
+function getTopicStoreState(scope?: string): TelegramTopicNameStoreState {
+  const state = getTelegramTopicNameCacheState();
   const stateKey = scope ?? DEFAULT_TOPIC_NAME_CACHE_SCOPE;
   const existing = state.stores.get(stateKey);
   if (existing) {
@@ -137,7 +92,7 @@ function getTopicStoreState(scope?: string): TopicNameStoreState {
   return next;
 }
 
-async function hydrateTopicStoreState(state: TopicNameStoreState): Promise<void> {
+async function hydrateTopicStoreState(state: TelegramTopicNameStoreState): Promise<void> {
   if (state.hydrated) {
     return;
   }
@@ -230,14 +185,4 @@ export async function listTelegramLegacyTopicNameCacheEntries(params: {
     .toSorted(([, left], [, right]) => right.updatedAt - left.updatedAt)
     .slice(0, params.maxEntries ?? TELEGRAM_TOPIC_NAME_CACHE_MAX_ENTRIES)
     .map(([key, entry]) => ({ key, value: entry }));
-}
-
-export function resetTopicNameCacheForTest(): void {
-  getTopicNameCacheState().stores.clear();
-}
-
-export function setTelegramTopicNameStoreFactoryForTest(
-  factory: ((namespace: string) => TopicNamePersistentStore) | undefined,
-): void {
-  topicNameStoreFactoryForTest = factory;
 }

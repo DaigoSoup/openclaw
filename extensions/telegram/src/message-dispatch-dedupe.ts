@@ -223,30 +223,6 @@ export async function commitTelegramMessageDispatchReplay(params: {
   }
 }
 
-export async function forgetTelegramMessageDispatchReplay(params: {
-  guard: TelegramMessageDispatchReplayGuard;
-  keys?: readonly string[];
-}): Promise<void> {
-  const keys = normalizeReplayKeys(params.keys);
-  const failures = (
-    await Promise.all(
-      keys.map(async (key): Promise<TelegramMessageDispatchReplayForgetFailure | null> => {
-        try {
-          const forgotten = await params.guard.forget(key, {
-            namespace: TELEGRAM_MESSAGE_DISPATCH_DEDUPE_NAMESPACE,
-          });
-          return forgotten ? null : { key };
-        } catch (error) {
-          return { key, error };
-        }
-      }),
-    )
-  ).filter((failure): failure is TelegramMessageDispatchReplayForgetFailure => Boolean(failure));
-  if (failures.length > 0) {
-    throw new TelegramMessageDispatchReplayForgetError(failures);
-  }
-}
-
 export function releaseTelegramMessageDispatchReplay(params: {
   guard: TelegramMessageDispatchReplayGuard;
   keys?: readonly string[];
