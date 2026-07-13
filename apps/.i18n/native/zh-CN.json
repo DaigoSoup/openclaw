@@ -4566,7 +4566,7 @@
     {
       "id": "native.android.f6ab96d066bd583c",
       "source": "Use a secure wss:// or Tailscale Serve Gateway, generate a full-access setup code in the Control UI or with openclaw qr, then scan or paste it below and reconnect to enable settings and upgrades.",
-      "translated": "使用安全的 wss:// 或 Tailscale Serve Gateway，在 Control UI 中或使用 openclaw qr 生成完整访问权限设置代码，然后在下方扫描或粘贴该代码并重新连接，以启用设置和升级。"
+      "translated": "使用安全的 wss:// 或 Tailscale Serve Gateway，在 Control UI 中或使用 openclaw qr 生成完整访问权限设置码，然后在下方扫描或粘贴该设置码并重新连接，以启用设置和升级。"
     },
     {
       "id": "native.android.5311e446ce2bf857",
@@ -11386,12 +11386,12 @@
     {
       "id": "native.apple.7793f5de6975faef",
       "source": "Use a secure wss:// or Tailscale Serve Gateway, then scan a full-access setup code from the Control UI or openclaw qr and reconnect to enable settings and upgrades.",
-      "translated": "使用安全的 wss:// 或 Tailscale Serve Gateway，然后扫描来自 Control UI 或 openclaw qr 的完整访问权限设置代码并重新连接，以启用设置和升级。"
+      "translated": "使用安全的 wss:// 或 Tailscale Serve Gateway，然后扫描来自 Control UI 或 openclaw qr 的完整访问权限设置码并重新连接，以启用设置和升级。"
     },
     {
       "id": "native.apple.666cea428e126188",
       "source": "Scan Full-Access Code",
-      "translated": "扫描完整访问权限代码"
+      "translated": "扫描完整访问权限码"
     },
     {
       "id": "native.apple.5c4427c5a67068d6",

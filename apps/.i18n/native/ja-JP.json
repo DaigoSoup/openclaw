@@ -4436,7 +4436,7 @@
     {
       "id": "native.android.6926684139f297b5",
       "source": "Limited Gateway access",
-      "translated": "Gatewayへの制限付きアクセス"
+      "translated": "制限付き Gateway アクセス"
     },
     {
       "id": "native.android.7b12195e02ebcc34",
@@ -4566,7 +4566,7 @@
     {
       "id": "native.android.f6ab96d066bd583c",
       "source": "Use a secure wss:// or Tailscale Serve Gateway, generate a full-access setup code in the Control UI or with openclaw qr, then scan or paste it below and reconnect to enable settings and upgrades.",
-      "translated": "安全なwss://またはTailscale Serve Gatewayを使用し、Control UIまたはopenclaw qrでフルアクセス用セットアップコードを生成してから、以下でスキャンまたは貼り付けて再接続すると、設定とアップグレードが有効になります。"
+      "translated": "安全な wss:// または Tailscale Serve Gateway を使用し、Control UI または openclaw qr でフルアクセス用セットアップコードを生成してから、以下でスキャンまたは貼り付けて再接続すると、設定とアップグレードが有効になります。"
     },
     {
       "id": "native.android.5311e446ce2bf857",
@@ -11381,17 +11381,17 @@
     {
       "id": "native.apple.7221013549a7c1b3",
       "source": "This phone has limited Gateway access.",
-      "translated": "このスマートフォンのGatewayアクセスは制限されています。"
+      "translated": "このスマートフォンの Gateway アクセスは制限されています。"
     },
     {
       "id": "native.apple.7793f5de6975faef",
       "source": "Use a secure wss:// or Tailscale Serve Gateway, then scan a full-access setup code from the Control UI or openclaw qr and reconnect to enable settings and upgrades.",
-      "translated": "安全なwss://またはTailscale Serve Gatewayを使用し、Control UIまたはopenclaw qrからフルアクセス用セットアップコードをスキャンして再接続すると、設定とアップグレードが有効になります。"
+      "translated": "安全な wss:// または Tailscale Serve Gateway を使用し、Control UI または openclaw qr からフルアクセス用セットアップコードをスキャンして再接続すると、設定とアップグレードが有効になります。"
     },
     {
       "id": "native.apple.666cea428e126188",
       "source": "Scan Full-Access Code",
-      "translated": "フルアクセスコードをスキャン"
+      "translated": "フルアクセス用コードをスキャン"
     },
     {
       "id": "native.apple.5c4427c5a67068d6",

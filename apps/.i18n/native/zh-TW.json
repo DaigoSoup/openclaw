@@ -4436,7 +4436,7 @@
     {
       "id": "native.android.6926684139f297b5",
       "source": "Limited Gateway access",
-      "translated": "有限的 Gateway 存取權限"
+      "translated": "有限的 Gateway 存取權"
     },
     {
       "id": "native.android.7b12195e02ebcc34",
@@ -4566,7 +4566,7 @@
     {
       "id": "native.android.f6ab96d066bd583c",
       "source": "Use a secure wss:// or Tailscale Serve Gateway, generate a full-access setup code in the Control UI or with openclaw qr, then scan or paste it below and reconnect to enable settings and upgrades.",
-      "translated": "使用安全的 wss:// 或 Tailscale Serve Gateway，在 Control UI 中或使用 openclaw qr 產生完整存取權限的設定碼，然後在下方掃描或貼上並重新連線，以啟用設定與升級功能。"
+      "translated": "使用安全的 wss:// 或 Tailscale Serve Gateway，在 Control UI 中或使用 openclaw qr 產生完整存取權設定碼，然後在下方掃描或貼上該設定碼並重新連線，即可啟用設定與升級。"
     },
     {
       "id": "native.android.5311e446ce2bf857",
@@ -11361,7 +11361,7 @@
     {
       "id": "native.apple.412973e8b46051ca",
       "source": "Access",
-      "translated": "存取權限"
+      "translated": "存取權"
     },
     {
       "id": "native.apple.77609c6953ae454f",
@@ -11376,22 +11376,22 @@
     {
       "id": "native.apple.5b56380d4922e78b",
       "source": "Upgrade access",
-      "translated": "升級存取權限"
+      "translated": "升級存取權"
     },
     {
       "id": "native.apple.7221013549a7c1b3",
       "source": "This phone has limited Gateway access.",
-      "translated": "此手機僅有有限的 Gateway 存取權限。"
+      "translated": "此手機僅有有限的 Gateway 存取權。"
     },
     {
       "id": "native.apple.7793f5de6975faef",
       "source": "Use a secure wss:// or Tailscale Serve Gateway, then scan a full-access setup code from the Control UI or openclaw qr and reconnect to enable settings and upgrades.",
-      "translated": "使用安全的 wss:// 或 Tailscale Serve Gateway，然後掃描來自 Control UI 或 openclaw qr 的完整存取權限設定碼，並重新連線以啟用設定與升級功能。"
+      "translated": "使用安全的 wss:// 或 Tailscale Serve Gateway，然後掃描來自 Control UI 或 openclaw qr 的完整存取權設定碼並重新連線，即可啟用設定與升級。"
     },
     {
       "id": "native.apple.666cea428e126188",
       "source": "Scan Full-Access Code",
-      "translated": "掃描完整存取權限代碼"
+      "translated": "掃描完整存取權設定碼"
     },
     {
       "id": "native.apple.5c4427c5a67068d6",

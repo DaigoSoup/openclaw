@@ -4436,7 +4436,7 @@
     {
       "id": "native.android.6926684139f297b5",
       "source": "Limited Gateway access",
-      "translated": "Begränsad åtkomst till Gateway"
+      "translated": "Begränsad Gateway-åtkomst"
     },
     {
       "id": "native.android.7b12195e02ebcc34",
@@ -11381,7 +11381,7 @@
     {
       "id": "native.apple.7221013549a7c1b3",
       "source": "This phone has limited Gateway access.",
-      "translated": "Den här telefonen har begränsad åtkomst till Gateway."
+      "translated": "Den här telefonen har begränsad Gateway-åtkomst."
     },
     {
       "id": "native.apple.7793f5de6975faef",

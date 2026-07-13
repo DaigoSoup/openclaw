@@ -4566,7 +4566,7 @@
     {
       "id": "native.android.f6ab96d066bd583c",
       "source": "Use a secure wss:// or Tailscale Serve Gateway, generate a full-access setup code in the Control UI or with openclaw qr, then scan or paste it below and reconnect to enable settings and upgrades.",
-      "translated": "Utilisez un Gateway sécurisé en wss:// ou Tailscale Serve, générez un code de configuration avec accès complet dans la Control UI ou avec openclaw qr, puis scannez-le ou collez-le ci-dessous et reconnectez-vous pour activer les réglages et les mises à niveau."
+      "translated": "Utilisez un Gateway sécurisé via wss:// ou Tailscale Serve, générez un code de configuration avec accès complet dans la Control UI ou avec openclaw qr, puis scannez-le ou collez-le ci-dessous et reconnectez-vous pour activer les paramètres et les mises à niveau."
     },
     {
       "id": "native.android.5311e446ce2bf857",
@@ -11386,7 +11386,7 @@
     {
       "id": "native.apple.7793f5de6975faef",
       "source": "Use a secure wss:// or Tailscale Serve Gateway, then scan a full-access setup code from the Control UI or openclaw qr and reconnect to enable settings and upgrades.",
-      "translated": "Utilisez un Gateway sécurisé en wss:// ou Tailscale Serve, puis scannez un code de configuration avec accès complet depuis la Control UI ou openclaw qr et reconnectez-vous pour activer les réglages et les mises à niveau."
+      "translated": "Utilisez un Gateway sécurisé via wss:// ou Tailscale Serve, puis scannez un code de configuration avec accès complet depuis la Control UI ou openclaw qr et reconnectez-vous pour activer les paramètres et les mises à niveau."
     },
     {
       "id": "native.apple.666cea428e126188",

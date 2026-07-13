@@ -7617,6 +7617,142 @@
         }
       }
     },
+    "Access": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Access"
+          }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "访问权限"
+          }
+        },
+        "zh-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "存取權"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acesso"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zugriff"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acceso"
+          }
+        },
+        "ja-JP": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アクセス"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "접근"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accès"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "एक्सेस"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الوصول"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accesso"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişim"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Доступ"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Akses"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dostęp"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "การเข้าถึง"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quyền truy cập"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toegang"
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دسترسی"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Доступ"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Åtkomst"
+          }
+        }
+      }
+    },
     "Access Level": {
       "localizations": {
         "en": {
@@ -59565,6 +59701,142 @@
           "stringUnit": {
             "state": "translated",
             "value": "Förgrena"
+          }
+        }
+      }
+    },
+    "Full": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Full"
+          }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "完整"
+          }
+        },
+        "zh-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "完整"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Completo"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vollständig"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Completo"
+          }
+        },
+        "ja-JP": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "フル"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "전체"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Complet"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "पूर्ण"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كامل"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Completo"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tam"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Повний"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Penuh"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pełny"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "เต็มรูปแบบ"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đầy đủ"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Volledig"
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کامل"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Полный"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fullständig"
           }
         }
       }
@@ -123897,6 +124169,142 @@
         }
       }
     },
+    "Scan Full-Access Code": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scan Full-Access Code"
+          }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "扫描完整访问权限码"
+          }
+        },
+        "zh-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "掃描完整存取權設定碼"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escanear código de acesso completo"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Code für vollständigen Zugriff scannen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escanear código de acceso completo"
+          }
+        },
+        "ja-JP": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "フルアクセス用コードをスキャン"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "전체 접근 코드 스캔"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scanner le code d’accès complet"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "पूर्ण-एक्सेस कोड स्कैन करें"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مسح رمز الوصول الكامل"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scansiona il codice di accesso completo"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tam Erişim Kodunu Tara"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сканувати код повного доступу"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pindai Kode Akses Penuh"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeskanuj kod pełnego dostępu"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "สแกนรหัสเข้าถึงเต็มรูปแบบ"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quét mã truy cập đầy đủ"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Code voor volledige toegang scannen"
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اسکن کد دسترسی کامل"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сканировать код полного доступа"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skanna kod för fullständig åtkomst"
+          }
+        }
+      }
+    },
     "Scan QR": {
       "localizations": {
         "en": {
@@ -149873,6 +150281,142 @@
         }
       }
     },
+    "This phone has limited Gateway access.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This phone has limited Gateway access."
+          }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此手机的 Gateway 访问权限受限。"
+          }
+        },
+        "zh-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此手機僅有有限的 Gateway 存取權。"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Este telefone tem acesso limitado ao Gateway."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dieses Telefon hat eingeschränkten Gateway-Zugriff."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Este teléfono tiene acceso limitado al Gateway."
+          }
+        },
+        "ja-JP": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "このスマートフォンの Gateway アクセスは制限されています。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 휴대전화는 Gateway 접근이 제한되어 있습니다."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ce téléphone dispose d’un accès limité au Gateway."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "इस फ़ोन के पास सीमित Gateway एक्सेस है।"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يتمتع هذا الهاتف بوصول محدود إلى Gateway."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Questo telefono ha un accesso limitato al Gateway."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu telefonun Gateway erişimi sınırlı."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Цей телефон має обмежений доступ до Gateway."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ponsel ini memiliki akses Gateway terbatas."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ten telefon ma ograniczony dostęp do Gateway."
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "โทรศัพท์เครื่องนี้มีสิทธิ์เข้าถึง Gateway แบบจำกัด"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Điện thoại này có quyền truy cập Gateway bị giới hạn."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deze telefoon heeft beperkte Gateway-toegang."
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "این تلفن دسترسی محدودی به Gateway دارد."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Этот телефон имеет ограниченный доступ к Gateway."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Den här telefonen har begränsad Gateway-åtkomst."
+          }
+        }
+      }
+    },
     "This removes saved credentials, device access, TLS trust, and cached chats for this gateway.": {
       "localizations": {
         "en": {
@@ -153681,6 +154225,142 @@
         }
       }
     },
+    "Upgrade access": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Upgrade access"
+          }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "升级访问权限"
+          }
+        },
+        "zh-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "升級存取權"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ampliar acesso"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zugriff erweitern"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mejorar acceso"
+          }
+        },
+        "ja-JP": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アクセスをアップグレード"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "접근 권한 업그레이드"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mettre à niveau l’accès"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "एक्सेस अपग्रेड करें"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ترقية الوصول"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aggiorna l'accesso"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişimi yükselt"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Розширити доступ"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tingkatkan akses"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rozszerz dostęp"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "อัปเกรดการเข้าถึง"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nâng cấp quyền truy cập"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toegang upgraden"
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ارتقای دسترسی"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Расширить доступ"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uppgradera åtkomst"
+          }
+        }
+      }
+    },
     "Usage": {
       "localizations": {
         "en": {
@@ -154085,6 +154765,142 @@
           "stringUnit": {
             "state": "translated",
             "value": "Använd manuell konfiguration"
+          }
+        }
+      }
+    },
+    "Use a secure wss:// or Tailscale Serve Gateway, then scan a full-access setup code from the Control UI or openclaw qr and reconnect to enable settings and upgrades.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use a secure wss:// or Tailscale Serve Gateway, then scan a full-access setup code from the Control UI or openclaw qr and reconnect to enable settings and upgrades."
+          }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用安全的 wss:// 或 Tailscale Serve Gateway，然后扫描来自 Control UI 或 openclaw qr 的完整访问权限设置码并重新连接，以启用设置和升级。"
+          }
+        },
+        "zh-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用安全的 wss:// 或 Tailscale Serve Gateway，然後掃描來自 Control UI 或 openclaw qr 的完整存取權設定碼並重新連線，即可啟用設定與升級。"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use um Gateway seguro com wss:// ou Tailscale Serve, depois escaneie um código de configuração com acesso completo da Control UI ou de openclaw qr e reconecte-se para habilitar configurações e atualizações."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verwende ein sicheres wss:// oder ein Tailscale Serve Gateway, scanne dann einen Einrichtungscode für vollständigen Zugriff aus der Control UI oder von openclaw qr und stelle die Verbindung erneut her, um Einstellungen und Upgrades zu aktivieren."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usa un Gateway seguro con wss:// o Tailscale Serve, luego escanea un código de configuración con acceso completo desde la Control UI o openclaw qr y vuelve a conectarte para habilitar la configuración y las actualizaciones."
+          }
+        },
+        "ja-JP": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "安全な wss:// または Tailscale Serve Gateway を使用し、Control UI または openclaw qr からフルアクセス用セットアップコードをスキャンして再接続すると、設定とアップグレードが有効になります。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "보안 wss:// 또는 Tailscale Serve Gateway를 사용한 다음, Control UI 또는 openclaw qr에서 전체 접근 설정 코드를 스캔하고 다시 연결하여 설정 및 업그레이드를 활성화하세요."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utilisez un Gateway sécurisé via wss:// ou Tailscale Serve, puis scannez un code de configuration avec accès complet depuis la Control UI ou openclaw qr et reconnectez-vous pour activer les paramètres et les mises à niveau."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "सुरक्षित wss:// या Tailscale Serve Gateway का उपयोग करें, फिर Control UI या openclaw qr से पूर्ण-एक्सेस सेटअप कोड स्कैन करें और सेटिंग्स व अपग्रेड सक्षम करने के लिए फिर से कनेक्ट करें।"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استخدم Gateway آمنًا عبر wss:// أو Tailscale Serve، ثم امسح رمز إعداد بصلاحية وصول كاملة من Control UI أو openclaw qr وأعد الاتصال لتمكين الإعدادات والترقيات."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usa un Gateway wss:// sicuro o Tailscale Serve, quindi scansiona un codice di configurazione con accesso completo dalla Control UI o da openclaw qr e riconnettiti per abilitare le impostazioni e gli aggiornamenti."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Güvenli bir wss:// veya Tailscale Serve Gateway kullanın, ardından Control UI'dan veya openclaw qr ile tam erişimli bir kurulum kodunu tarayın ve ayarları ve yükseltmeleri etkinleştirmek için yeniden bağlanın."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Використовуйте захищений Gateway через wss:// або Tailscale Serve, потім відскануйте код налаштування з повним доступом із Control UI або openclaw qr і повторно підключіться, щоб увімкнути налаштування й оновлення."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gunakan Gateway wss:// yang aman atau Tailscale Serve, lalu pindai kode penyiapan akses penuh dari Control UI atau openclaw qr dan hubungkan kembali untuk mengaktifkan pengaturan dan peningkatan."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Użyj bezpiecznego Gateway wss:// lub Tailscale Serve, a następnie zeskanuj kod konfiguracji z pełnym dostępem z Control UI albo openclaw qr i połącz się ponownie, aby włączyć ustawienia i uaktualnienia."
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ใช้ Gateway แบบ wss:// ที่ปลอดภัยหรือ Tailscale Serve จากนั้นสแกนรหัสตั้งค่าแบบเข้าถึงเต็มรูปแบบจาก Control UI หรือ openclaw qr แล้วเชื่อมต่อใหม่เพื่อเปิดใช้การตั้งค่าและการอัปเกรด"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sử dụng Gateway bảo mật qua wss:// hoặc Tailscale Serve, sau đó quét mã thiết lập quyền truy cập đầy đủ từ Control UI hoặc openclaw qr và kết nối lại để bật các chế độ cài đặt và nâng cấp."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gebruik een beveiligde wss://- of Tailscale Serve Gateway, scan vervolgens een installatiecode voor volledige toegang vanuit de Control UI of openclaw qr en maak opnieuw verbinding om instellingen en upgrades in te schakelen."
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "از یک Gateway امن با wss:// یا Tailscale Serve استفاده کنید، سپس یک کد راه‌اندازی با دسترسی کامل را از Control UI یا openclaw qr اسکن کرده و دوباره متصل شوید تا تنظیمات و ارتقاها فعال شوند."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Используйте защищённый Gateway с адресом wss:// или Tailscale Serve, затем отсканируйте код настройки с полным доступом из Control UI или openclaw qr и повторно подключитесь, чтобы включить настройки и обновления."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Använd en säker wss://- eller Tailscale Serve Gateway, skanna sedan en konfigurationskod för fullständig åtkomst från Control UI eller openclaw qr och återanslut för att aktivera inställningar och uppgraderingar."
           }
         }
       }

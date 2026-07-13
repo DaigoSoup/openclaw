@@ -11376,7 +11376,7 @@
     {
       "id": "native.apple.5b56380d4922e78b",
       "source": "Upgrade access",
-      "translated": "ترقية صلاحية الوصول"
+      "translated": "ترقية الوصول"
     },
     {
       "id": "native.apple.7221013549a7c1b3",
@@ -11386,12 +11386,12 @@
     {
       "id": "native.apple.7793f5de6975faef",
       "source": "Use a secure wss:// or Tailscale Serve Gateway, then scan a full-access setup code from the Control UI or openclaw qr and reconnect to enable settings and upgrades.",
-      "translated": "استخدم Gateway آمنًا عبر wss:// أو Tailscale Serve، ثم امسح ضوئيًا رمز إعداد بصلاحية وصول كاملة من Control UI أو openclaw qr وأعد الاتصال لتمكين الإعدادات والترقيات."
+      "translated": "استخدم Gateway آمنًا عبر wss:// أو Tailscale Serve، ثم امسح رمز إعداد بصلاحية وصول كاملة من Control UI أو openclaw qr وأعد الاتصال لتمكين الإعدادات والترقيات."
     },
     {
       "id": "native.apple.666cea428e126188",
       "source": "Scan Full-Access Code",
-      "translated": "مسح رمز الوصول الكامل ضوئيًا"
+      "translated": "مسح رمز الوصول الكامل"
     },
     {
       "id": "native.apple.5c4427c5a67068d6",
