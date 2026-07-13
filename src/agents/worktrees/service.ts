@@ -1,5 +1,5 @@
 import { randomBytes, randomUUID, createHash } from "node:crypto";
-import { constants as fsConstants } from "node:fs";
+import { constants as fsConstants, type Dirent } from "node:fs";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
@@ -305,17 +305,38 @@ async function runSetupScript(repoRoot: string, worktreePath: string): Promise<v
   }
 }
 
-/** Sums file sizes without following symlinks, so a link cannot inflate or escape the worktree. */
+function isMissingFileError(error: unknown): boolean {
+  return (error as NodeJS.ErrnoException).code === "ENOENT";
+}
+
+/**
+ * Sums file sizes without following symlinks, so a link cannot inflate or escape
+ * the worktree. Only ENOENT is tolerated (cleanup races with removals); other
+ * failures propagate so an unreadable tree is never measured as zero bytes.
+ */
 async function directorySizeBytes(root: string): Promise<number> {
-  const entries = await fs.readdir(root, { withFileTypes: true }).catch(() => []);
+  let entries: Dirent[];
+  try {
+    entries = await fs.readdir(root, { withFileTypes: true });
+  } catch (error) {
+    if (isMissingFileError(error)) {
+      return 0;
+    }
+    throw error;
+  }
   let total = 0;
   for (const entry of entries) {
     const child = path.join(root, entry.name);
     if (entry.isDirectory() && !entry.isSymbolicLink()) {
       total += await directorySizeBytes(child);
     } else {
-      const stat = await fs.lstat(child).catch(() => undefined);
-      total += stat?.size ?? 0;
+      try {
+        total += (await fs.lstat(child)).size;
+      } catch (error) {
+        if (!isMissingFileError(error)) {
+          throw error;
+        }
+      }
     }
   }
   return total;
@@ -847,9 +868,16 @@ export class ManagedWorktreeService {
     let totalBytes = 0;
     if (limits.maxTotalSizeBytes !== undefined) {
       for (const record of live) {
-        const bytes = await directorySizeBytes(record.path);
-        sizes.set(record.id, bytes);
-        totalBytes += bytes;
+        try {
+          const bytes = await directorySizeBytes(record.path);
+          sizes.set(record.id, bytes);
+          totalBytes += bytes;
+        } catch (error) {
+          // Unmeasurable trees stay out of the size total so an I/O failure
+          // cannot masquerade as zero bytes and defeat the configured limit;
+          // count-based eviction still covers the record.
+          log.warn(`worktree size measurement failed for ${record.id}: ${String(error)}`);
+        }
       }
     }
     let liveCount = live.length;

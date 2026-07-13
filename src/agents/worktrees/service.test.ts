@@ -763,6 +763,31 @@ describe("ManagedWorktreeService", () => {
     expect(getRegistryWorktree(env, oldest.id)?.snapshotRef).toBeTruthy();
   });
 
+  it("keeps unmeasurable worktrees out of size accounting instead of counting zero", async () => {
+    if (process.getuid?.() === 0) {
+      return; // chmod-based EACCES cannot be simulated as root
+    }
+    const unreadable = await service.create({
+      repoRoot: repo,
+      name: "size-unreadable",
+      ownerKind: "session",
+      ownerId: "agent:main:size-unreadable",
+    });
+    await fs.writeFile(path.join(unreadable.path, "blob.bin"), Buffer.alloc(10_000));
+    const locked = path.join(unreadable.path, "locked");
+    await fs.mkdir(locked);
+    await fs.chmod(locked, 0o000);
+    try {
+      const result = await service.gc({ limits: { maxTotalSizeBytes: 6_000 } });
+      // The failed measurement excludes the record from the size total, so the
+      // limit pass does not evict against a bogus zero-byte reading.
+      expect(result.removed).toEqual([]);
+      expect(getRegistryWorktree(env, unreadable.id)?.removedAt).toBeUndefined();
+    } finally {
+      await fs.chmod(locked, 0o755);
+    }
+  });
+
   it("counts a competing removal instead of evicting an extra worktree", async () => {
     const oldest = await service.create({
       repoRoot: repo,

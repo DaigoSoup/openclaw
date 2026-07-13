@@ -117,12 +117,8 @@ class WorktreesPage extends OpenClawLightDomElement {
     this.subscriptions.clear();
     this.invalidateLoad();
     this.invalidateOperations();
-    if (this.cleanupCommitTimer) {
-      clearTimeout(this.cleanupCommitTimer);
-      this.cleanupCommitTimer = null;
-      // Flush a pending edit so navigating away does not drop it.
-      void this.commitCleanupLimits();
-    }
+    // Flush a pending edit so navigating away does not drop it.
+    void this.flushCleanupEdits();
     this.gatewaySource = undefined;
     this.client = null;
     this.gatewayConnected = false;
@@ -162,6 +158,15 @@ class WorktreesPage extends OpenClawLightDomElement {
       this.cleanupCommitTimer = null;
       void this.commitCleanupLimits();
     }, CLEANUP_COMMIT_DELAY_MS);
+  }
+
+  /** Cancels the debounce timer and commits any pending cleanup edit now. */
+  private async flushCleanupEdits() {
+    if (this.cleanupCommitTimer) {
+      clearTimeout(this.cleanupCommitTimer);
+      this.cleanupCommitTimer = null;
+    }
+    await this.commitCleanupLimits();
   }
 
   private async commitCleanupLimits() {
@@ -361,6 +366,9 @@ class WorktreesPage extends OpenClawLightDomElement {
     this.loading = true;
     this.error = null;
     try {
+      // A pending stepper edit must reach the config before gc reads it,
+      // otherwise Clean up now evicts against the previous limits.
+      await this.flushCleanupEdits();
       await scope.client.request("worktrees.gc", {});
     } catch (error) {
       if (this.isOperationScopeCurrent(scope)) {

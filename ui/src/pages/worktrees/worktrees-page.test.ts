@@ -28,6 +28,7 @@ type WorktreesPageTestElement = HTMLElement & {
   restore: (record: WorktreeRecord) => Promise<void>;
   setCleanupLimit: (key: "maxCount" | "maxTotalSizeGb", value: number) => void;
   commitCleanupLimits: () => Promise<void>;
+  gc: () => Promise<void>;
 };
 
 function deferred<T>() {
@@ -570,6 +571,39 @@ describe("WorktreesPage lifecycle", () => {
         note: "worktrees: update cleanup limits",
       });
       expect(runtimeConfig.refresh).toHaveBeenCalledOnce();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("flushes pending cleanup edits before Clean up now", async () => {
+    vi.useFakeTimers();
+    try {
+      const calls: string[] = [];
+      const request = vi.fn(async (method: string) => {
+        calls.push(method);
+        return { worktrees: [] };
+      });
+      const runtimeConfig = runtimeConfigStub({ maxCount: 25 });
+      runtimeConfig.patch = vi.fn(async () => {
+        calls.push("config.patch");
+        return true;
+      });
+      const page = document.createElement("openclaw-worktrees-page") as WorktreesPageTestElement;
+      page.context = contextWithConfig(
+        gatewayWithClient({ request } as unknown as GatewayBrowserClient),
+        runtimeConfig,
+      );
+      document.body.append(page);
+      await vi.advanceTimersByTimeAsync(0);
+      expect(page.loading).toBe(false);
+
+      page.setCleanupLimit("maxCount", 24);
+      await page.gc();
+
+      expect(
+        calls.filter((method) => method === "config.patch" || method === "worktrees.gc"),
+      ).toEqual(["config.patch", "worktrees.gc"]);
     } finally {
       vi.useRealTimers();
     }
