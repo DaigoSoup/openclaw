@@ -231,6 +231,16 @@ export const tr: TranslationMap = {
       title: "OpenClaw mobil",
       subtitle: "Yeni bir telefonu bağlamak için mobil uygulamada bu QR kodunu tarayın.",
       generating: "Güvenli bir kurulum kodu oluşturuluyor…",
+      accessTitle: "Mobil erişim",
+      fullAccess: "Tam erişim (önerilir)",
+      fullAccessHint:
+        "Node ile birlikte ayarlar ve yükseltmeler dahil eksiksiz Gateway kontrolleri.",
+      limitedAccess: "Sınırlı erişim",
+      limitedAccessHint: "Yönetim kontrolleri olmadan Node, sohbet ve onaylar.",
+      generateCode: "Kurulum kodu oluştur",
+      transportLimitedTitle: "Ağ güvenliği için sınırlandırıldı",
+      transportLimitedHint:
+        "Bu Gateway URL'si düz metin ws:// kullanıyor. wss:// veya Tailscale Serve kullanın, ardından tam erişim için yeni bir kod oluşturun.",
       failed: "Kurulum kodu oluşturulamadı.",
       qrAlt: "OpenClaw mobil eşleştirme QR kodu",
       qrUnavailable: "QR kullanılamıyor. Bunun yerine kurulum kodunu kopyalayın.",
