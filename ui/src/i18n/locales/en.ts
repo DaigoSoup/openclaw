@@ -81,6 +81,7 @@ export const en: TranslationMap = {
     relink: "Relink",
     waitForScan: "Wait for scan",
     logout: "Logout",
+    skipToMainContent: "Skip to main content",
   },
   nativeLinkMenu: {
     label: "Link actions",
@@ -1081,6 +1082,7 @@ export const en: TranslationMap = {
     settingsView: "Settings view",
     simple: "Simple",
     advanced: "Advanced",
+    content: "Settings content",
     themeImported: "Imported {name}.",
     themeRemoved: "Custom theme removed.",
     channels: {
@@ -1433,6 +1435,8 @@ export const en: TranslationMap = {
     platforms: "Platforms: {platforms}",
     installNamed: "Install {name}",
     notFound: "Skill not found.",
+    openDetails: "Open {name} details",
+    enabledNamed: "{name} enabled",
     invalidLink: "ClawHub link invalid",
     overview: "Overview",
     skillCard: "Skill Card",
@@ -3470,11 +3474,13 @@ export const en: TranslationMap = {
   },
   cron: {
     tabs: {
+      filterLabel: "Automation status",
       all: "All",
       active: "Active",
       paused: "Paused",
     },
     list: {
+      viewLabel: "Automation views",
       searchPlaceholder: "Search automations",
       newTask: "New automation",
       filters: "Filters",
@@ -3545,6 +3551,7 @@ export const en: TranslationMap = {
       nextWake: "Next wake",
     },
     detail: {
+      tabsLabel: "Automation details",
       newTitle: "New automation",
       newSubtitle: "Describe what OpenClaw should do, then pick when it runs.",
       back: "All automations",

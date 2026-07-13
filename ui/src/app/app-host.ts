@@ -1208,6 +1208,7 @@ class OpenClawShell extends OpenClawLightDomElement {
         @keydown=${this.handleShellKeydown}
         @theme-change=${this.handleThemeChange}
       >
+        <a class="shell-skip-link" href="#control-ui-main"> ${t("common.skipToMainContent")} </a>
         <button
           type="button"
           class="shell-nav-backdrop"
@@ -1328,10 +1329,11 @@ class OpenClawShell extends OpenClawLightDomElement {
             `
           : nothing}
         <main
+          id="control-ui-main"
           class="content ${chatLikeRoute ? "content--chat" : ""} ${activeRoute === "workboard"
             ? "content--workboard"
             : ""}"
-          tabindex="-1"
+          .tabIndex=${-1}
         >
           ${gatewaySnapshot.connected
             ? nothing
