@@ -19,7 +19,6 @@ import {
   type ErrorShape,
   type EventFrame,
   type HelloOk,
-  shouldPauseGatewayReconnect,
   readConnectErrorRecoveryAdvice,
   readConnectErrorDetailCode,
   isRetryableGatewayStartupUnavailableError,
@@ -36,6 +35,13 @@ import {
   signDevicePayload,
 } from "../lib/nodes/index.ts";
 import { generateUUID } from "../lib/uuid.ts";
+import {
+  isTrustedDeviceTokenRetryEndpoint,
+  shouldRetryWithDeviceToken,
+} from "./device-token-retry.ts";
+import { isNonRecoverableConnectError, resolveGatewayErrorDetailCode } from "./reconnect-policy.ts";
+
+export { resolveGatewayErrorDetailCode } from "./reconnect-policy.ts";
 
 export type GatewayEventFrame = EventFrame;
 
@@ -73,51 +79,6 @@ function enrichProtocolMismatchDetails(message: string | undefined, details: unk
   };
 }
 
-export function resolveGatewayErrorDetailCode(
-  error: { details?: unknown } | null | undefined,
-): string | null {
-  return readConnectErrorDetailCode(error?.details);
-}
-
-/**
- * Connect failures that cannot recover while client and server state stay unchanged.
- * AUTH_TOKEN_MISMATCH stays out: the close handler owns its bounded cached-token retry.
- */
-export function isNonRecoverableConnectError(error: { details?: unknown } | undefined): boolean {
-  if (!error) {
-    return false;
-  }
-  return shouldPauseGatewayReconnect({
-    details: error.details,
-    protocolMismatchIsTerminal: true,
-  });
-}
-
-function isLoopbackIPv4Host(host: string): boolean {
-  const octets = host.split(".");
-  return (
-    octets.length === 4 &&
-    octets[0] === "127" &&
-    octets.every((octet) => /^\d+$/.test(octet) && Number(octet) <= 255)
-  );
-}
-
-function isTrustedRetryEndpoint(url: string): boolean {
-  try {
-    const gatewayUrl = new URL(url, window.location.href);
-    const host = gatewayUrl.hostname.trim().toLowerCase();
-    const isLoopbackHost = host === "localhost" || host === "::1" || host === "[::1]";
-    const isLoopbackIPv4 = isLoopbackIPv4Host(host);
-    if (isLoopbackHost || isLoopbackIPv4) {
-      return true;
-    }
-    const pageUrl = new URL(window.location.href);
-    return gatewayUrl.host === pageUrl.host;
-  } catch {
-    return false;
-  }
-}
-
 export type GatewayControlUiPluginTab = NonNullable<HelloOk["controlUiTabs"]>[number];
 export type GatewayHelloOk = Omit<HelloOk, "server" | "features" | "snapshot" | "policy"> & {
   server?: Partial<HelloOk["server"]>;
@@ -138,7 +99,7 @@ type SelectedConnectAuth = {
 
 const CONTROL_UI_OPERATOR_ROLE = "operator";
 
-export const CONTROL_UI_OPERATOR_SCOPES = [
+const CONTROL_UI_OPERATOR_SCOPES = [
   "operator.admin",
   "operator.read",
   "operator.write",
@@ -146,7 +107,7 @@ export const CONTROL_UI_OPERATOR_SCOPES = [
   "operator.pairing",
 ] as const;
 
-export const CONTROL_UI_BOOTSTRAP_OPERATOR_SCOPES = [
+const CONTROL_UI_BOOTSTRAP_OPERATOR_SCOPES = [
   "operator.approvals",
   "operator.read",
   "operator.talk.secrets",
@@ -166,16 +127,6 @@ type ConnectPlan = {
   auth?: GatewayConnectAuth;
   deviceIdentity: Awaited<ReturnType<typeof loadOrCreateDeviceIdentity>> | null;
   device?: GatewayConnectDevice;
-};
-
-type DeviceTokenRetryDecision = {
-  deviceTokenRetryBudgetUsed: boolean;
-  authDeviceToken?: string;
-  explicitGatewayToken?: string;
-  deviceIdentity: Awaited<ReturnType<typeof loadOrCreateDeviceIdentity>> | null;
-  storedToken?: string;
-  canRetryWithDeviceTokenHint: boolean;
-  url: string;
 };
 
 export type GatewayBrowserClientOptions = {
@@ -390,18 +341,6 @@ export function hasStoredGatewayAuth(params: {
   return storedDeviceTokenScopesAllowRead(CONTROL_UI_OPERATOR_ROLE, storedEntry.scopes);
 }
 
-export function shouldRetryWithDeviceToken(params: DeviceTokenRetryDecision): boolean {
-  return (
-    !params.deviceTokenRetryBudgetUsed &&
-    !params.authDeviceToken &&
-    Boolean(params.explicitGatewayToken) &&
-    Boolean(params.deviceIdentity) &&
-    Boolean(params.storedToken) &&
-    params.canRetryWithDeviceTokenHint &&
-    isTrustedRetryEndpoint(params.url)
-  );
-}
-
 export class GatewayBrowserClient {
   private readonly client: GatewayProtocolClient<ConnectPlan>;
   private pendingDeviceTokenRetry = false;
@@ -614,15 +553,18 @@ export class GatewayBrowserClient {
       connectErrorCode === ConnectErrorDetailCodes.AUTH_TOKEN_MISMATCH;
 
     if (
-      shouldRetryWithDeviceToken({
-        deviceTokenRetryBudgetUsed: this.deviceTokenRetryBudgetUsed,
-        authDeviceToken: plan.selectedAuth.authDeviceToken,
-        explicitGatewayToken: plan.explicitGatewayToken,
-        deviceIdentity: plan.deviceIdentity,
-        storedToken: plan.selectedAuth.storedToken,
-        canRetryWithDeviceTokenHint,
-        url: this.opts.url,
-      })
+      shouldRetryWithDeviceToken(
+        {
+          deviceTokenRetryBudgetUsed: this.deviceTokenRetryBudgetUsed,
+          authDeviceToken: plan.selectedAuth.authDeviceToken,
+          explicitGatewayToken: plan.explicitGatewayToken,
+          deviceIdentity: plan.deviceIdentity,
+          storedToken: plan.selectedAuth.storedToken,
+          canRetryWithDeviceTokenHint,
+          url: this.opts.url,
+        },
+        window.location.href,
+      )
     ) {
       this.pendingDeviceTokenRetry = true;
       this.deviceTokenRetryBudgetUsed = true;
@@ -671,7 +613,7 @@ export class GatewayBrowserClient {
       this.pendingDeviceTokenRetry &&
       Boolean(explicitGatewayToken) &&
       Boolean(storedToken) &&
-      isTrustedRetryEndpoint(this.opts.url);
+      isTrustedDeviceTokenRetryEndpoint(this.opts.url, window.location.href);
     const resolvedDeviceToken = !(explicitGatewayToken || authPassword)
       ? (storedToken ?? undefined)
       : undefined;
