@@ -12,9 +12,8 @@ import {
   resolveTelegramMessageCacheScope,
 } from "./message-cache.js";
 import { recordOutboundMessageForPromptContext } from "./outbound-message-context.js";
-import { setTelegramRuntime } from "./runtime.js";
+import { clearTelegramRuntime, setTelegramRuntime } from "./runtime.js";
 import type { TelegramRuntime } from "./runtime.types.js";
-import { clearTelegramRuntime } from "./test-support/runtime.js";
 
 const cfg = {
   session: { store: "/tmp/openclaw-telegram-outbound-context-test.json" },

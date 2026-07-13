@@ -60,15 +60,19 @@ type BuildModelsProviderDataMock = ReturnType<
 >;
 const { resolveTelegramFetch } = await import("./fetch.js");
 const messageDispatchDedupe = await import("./message-dispatch-dedupe.js");
-const { createTelegramBotCore: createTelegramBotBase } = await import("./bot-core.js");
-const { getTelegramSequentialKey } = await import("./sequential-key.js");
+const {
+  createTelegramBotCore: createTelegramBotBase,
+  getTelegramSequentialKey,
+  resolveTelegramScopedGroupConfig,
+  setTelegramBotRuntimeForTest,
+} = await import("./bot-core.js");
 const {
   createTelegramSpooledReplayDeferredParticipant,
   recordTelegramMessageProcessingResult,
   runWithTelegramSpooledReplayUpdate,
   TelegramSpooledReplayProcessingError,
+  withTelegramSpooledReplayUpdate,
 } = await import("./bot-processing-outcome.js");
-const { withTelegramSpooledReplayUpdate } = await import("./test-support/spooled-replay.js");
 const { TELEGRAM_RICH_TEXT_LIMIT } = await import("./rich-message.js");
 const { resolveTelegramConversationRoute } = await import("./conversation-route.js");
 const { clearAccountThrottlersForTest } = await import("./account-throttler.js");
@@ -80,8 +84,7 @@ const {
   resetTelegramForumFlagCacheForTest,
   resolveTelegramThreadSpec,
 } = await import("./bot/helpers.js");
-const { resolveTelegramGroupPromptSettings, resolveTelegramScopedGroupConfig } =
-  await import("./group-config-helpers.js");
+const { resolveTelegramGroupPromptSettings } = await import("./group-config-helpers.js");
 let createTelegramBot: (
   opts: TelegramBotOptions,
 ) => ReturnType<typeof import("./bot-core.js").createTelegramBotCore>;
@@ -250,11 +253,13 @@ describe("createTelegramBot", () => {
     pluginRuntime.clearPluginInteractiveHandlers();
     clearAccountThrottlersForTest();
     throttlerSpy.mockReset();
+    setTelegramBotRuntimeForTest(
+      telegramBotRuntimeForTest as unknown as Parameters<typeof setTelegramBotRuntimeForTest>[0],
+    );
     createTelegramBot = (opts) =>
       createTelegramBotBase({
         ...opts,
         telegramDeps: telegramBotDepsForTest,
-        botRuntime: telegramBotRuntimeForTest,
       });
     pluginStateTestRuntime.resetPluginStateStoreForTests({ closeDatabase: false });
   });

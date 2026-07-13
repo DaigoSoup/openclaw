@@ -1,6 +1,5 @@
 // Telegram tests cover helpers plugin behavior.
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { renderTelegramTextEntities } from "./body-helpers.js";
 import {
   buildTelegramInboundOriginTarget,
   buildTelegramRoutingTarget,
@@ -11,6 +10,7 @@ import {
   hasBotMention,
   isBinaryContent,
   normalizeForwardedContext,
+  renderTelegramTextEntities,
   resolveTelegramDirectPeerId,
   resolveTelegramBotHasTopicsEnabled,
   resolveTelegramForumFlag,

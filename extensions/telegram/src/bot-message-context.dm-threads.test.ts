@@ -4,7 +4,7 @@ import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { TelegramInboundBodyResult } from "./bot-message-context.body.js";
-import { resetTopicNameCacheForTest } from "./test-support/topic-name-cache.js";
+import { resetTopicNameCacheForTest } from "./topic-name-cache.js";
 
 type SessionRuntimeModule = typeof import("./bot-message-context.session.runtime.js");
 type RecordInboundSessionFn = SessionRuntimeModule["recordInboundSession"];

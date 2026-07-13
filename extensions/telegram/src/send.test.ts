@@ -16,7 +16,7 @@ import {
   resetTelegramMessageCacheBucketsForTest,
 } from "./message-cache.js";
 import { createTelegramPromptContextProjectionCursor } from "./prompt-context-projection.js";
-import { setTelegramRuntime } from "./runtime.js";
+import { clearTelegramRuntime, setTelegramRuntime } from "./runtime.js";
 import type { TelegramRuntime } from "./runtime.types.js";
 import type { TelegramApiOverride } from "./send.js";
 import {
@@ -33,7 +33,6 @@ import {
   setTelegramSentMessageStoreForTest,
   wasSentByBot,
 } from "./sent-message-cache.js";
-import { clearTelegramRuntime } from "./test-support/runtime.js";
 
 installTelegramSendTestHooks();
 

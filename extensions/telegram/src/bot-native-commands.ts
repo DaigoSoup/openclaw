@@ -110,7 +110,10 @@ import { buildTelegramNativeCommandCallbackData } from "./native-command-callbac
 import { recordSentMessage } from "./sent-message-cache.js";
 import { getTopicName, resolveTopicNameCacheScope } from "./topic-name-cache.js";
 
-export { parseTelegramNativeCommandCallbackData } from "./native-command-callback-data.js";
+export {
+  buildTelegramNativeCommandCallbackData,
+  parseTelegramNativeCommandCallbackData,
+} from "./native-command-callback-data.js";
 
 const EMPTY_RESPONSE_FALLBACK = "No response generated. Please try again.";
 const activeTelegramCodexLoginFlows = new Map<string, { expiresAt: number }>();
@@ -216,6 +219,7 @@ const loadTelegramNativeCommandRuntime = createLazyRuntimeModule(
 export const testing = {
   loadNativeCommandRuntime: loadTelegramNativeCommandRuntime,
 };
+export { testing as __testing };
 
 type TelegramNativeCommandRuntime = Awaited<ReturnType<typeof loadTelegramNativeCommandRuntime>>;
 
@@ -624,9 +628,7 @@ export type RegisterTelegramHandlerParams = {
     ctx: TelegramContext,
     allMedia: TelegramMediaRef[],
     storeAllowFrom: string[],
-    turnContext: Parameters<
-      ReturnType<typeof import("./bot-message.js").createTelegramMessageProcessor>
-    >[3],
+    turnContext: import("./bot-message.js").TelegramMessageProcessorTurnContext,
     options?: TelegramMessageContextOptions,
     replyMedia?: TelegramMediaRef[],
     replyChain?: import("./message-cache.js").TelegramReplyChainEntry[],

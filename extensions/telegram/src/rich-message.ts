@@ -66,7 +66,7 @@ type TelegramRichMessagePlan = {
   degradationReasons: readonly TelegramRichHtmlDegradationReason[];
 };
 
-type TelegramSendRichMessageParams = {
+export type TelegramSendRichMessageParams = {
   business_connection_id?: string;
   chat_id: number | string;
   message_thread_id?: number;

@@ -1030,3 +1030,4 @@ export const testing = {
   resolveBindingsPath,
   resolveStoredBindingKey,
 };
+export { testing as __testing };

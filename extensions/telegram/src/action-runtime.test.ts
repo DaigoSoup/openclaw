@@ -9,10 +9,11 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { handleTelegramAction, telegramActionRuntime } from "./action-runtime.js";
 import { beginTelegramInboundEventDeliveryCorrelation } from "./inbound-event-delivery.js";
 import {
+  getTopicName,
   resetTopicNameCacheForTest,
+  resolveTopicNameCacheScope,
   setTelegramTopicNameStoreFactoryForTest,
-} from "./test-support/topic-name-cache.js";
-import { getTopicName, resolveTopicNameCacheScope } from "./topic-name-cache.js";
+} from "./topic-name-cache.js";
 
 const originalTelegramActionRuntime = { ...telegramActionRuntime };
 const reactMessageTelegram = vi.fn(async () => ({ ok: true }));

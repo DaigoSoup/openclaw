@@ -16,6 +16,7 @@ const {
 
 let normalizeTelegramCommandName: typeof import("./command-config.js").normalizeTelegramCommandName;
 let createTelegramBotBase: typeof import("./bot-core.js").createTelegramBotCore;
+let setTelegramBotRuntimeForTest: typeof import("./bot-core.js").setTelegramBotRuntimeForTest;
 let createTelegramBot: (
   opts: import("./bot.types.js").TelegramBotOptions,
 ) => ReturnType<typeof import("./bot-core.js").createTelegramBotCore>;
@@ -71,7 +72,8 @@ function registeredCommands(callIndex = -1): Array<{ command: string; descriptio
 describe("createTelegramBot command menu", () => {
   beforeAll(async () => {
     ({ normalizeTelegramCommandName } = await import("./command-config.js"));
-    ({ createTelegramBotCore: createTelegramBotBase } = await import("./bot-core.js"));
+    ({ createTelegramBotCore: createTelegramBotBase, setTelegramBotRuntimeForTest } =
+      await import("./bot-core.js"));
   });
 
   beforeEach(() => {
@@ -85,11 +87,13 @@ describe("createTelegramBot command menu", () => {
         telegram: { dmPolicy: "open", allowFrom: ["*"] },
       },
     });
+    setTelegramBotRuntimeForTest(
+      telegramBotRuntimeForTest as unknown as Parameters<typeof setTelegramBotRuntimeForTest>[0],
+    );
     createTelegramBot = (opts) =>
       createTelegramBotBase({
         ...opts,
         telegramDeps: telegramBotDepsForTest,
-        botRuntime: telegramBotRuntimeForTest,
       });
   });
 

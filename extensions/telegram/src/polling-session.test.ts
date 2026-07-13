@@ -14,10 +14,9 @@ import {
   type OpenClawStateKyselyDatabaseForTests,
 } from "openclaw/plugin-sdk/plugin-state-test-runtime";
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import { setTelegramRuntime } from "./runtime.js";
+import { clearTelegramRuntime, setTelegramRuntime } from "./runtime.js";
 import type { TelegramRuntime } from "./runtime.types.js";
 import type { TelegramIngressWorkerMessage } from "./telegram-ingress-worker.js";
-import { clearTelegramRuntime } from "./test-support/runtime.js";
 
 const runMock = vi.hoisted(() => vi.fn());
 const createTelegramBotMock = vi.hoisted(() => vi.fn());

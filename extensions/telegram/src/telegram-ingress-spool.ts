@@ -44,7 +44,7 @@ type TelegramSpooledUpdatePayload = {
   update: unknown;
 };
 
-class TelegramSpooledUpdateCompletionOwnershipError extends Error {
+export class TelegramSpooledUpdateCompletionOwnershipError extends Error {
   constructor(updateId: number) {
     super(`Telegram spooled update ${updateId} lost claim ownership before completion.`);
     this.name = "TelegramSpooledUpdateCompletionOwnershipError";
@@ -67,7 +67,7 @@ export function resolveTelegramIngressSpoolDir(params: {
   );
 }
 
-function resolveTelegramUpdateId(update: unknown): number | null {
+export function resolveTelegramUpdateId(update: unknown): number | null {
   if (!update || typeof update !== "object") {
     return null;
   }

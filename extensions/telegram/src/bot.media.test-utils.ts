@@ -1,7 +1,7 @@
 // Telegram helper module supports bot.media utils behavior.
 import * as ssrf from "openclaw/plugin-sdk/ssrf-runtime";
 import { afterEach, beforeAll, beforeEach, expect, vi, type Mock } from "vitest";
-import * as harness from "./bot.media.test-harness.js";
+import * as harness from "./bot.media.e2e-harness.js";
 
 type StickerSpy = Mock<(...args: unknown[]) => unknown>;
 
@@ -124,12 +124,16 @@ async function loadTelegramBotHarness() {
   readRemoteMediaBufferSpyRef = harness.readRemoteMediaBufferSpy;
   undiciFetchSpyRef = harness.undiciFetchSpy;
   resetReadRemoteMediaBufferMockRef = harness.resetReadRemoteMediaBufferMock;
-  const { createTelegramBotCore } = await import("./bot-core.js");
+  const botModule = await import("./bot.js");
+  botModule.setTelegramBotRuntimeForTest(
+    harness.telegramBotRuntimeForTest as unknown as Parameters<
+      typeof botModule.setTelegramBotRuntimeForTest
+    >[0],
+  );
   createTelegramBotRef = (opts) =>
-    createTelegramBotCore({
+    botModule.createTelegramBot({
       ...opts,
       telegramDeps: harness.telegramBotDepsForTest,
-      botRuntime: harness.telegramBotRuntimeForTest,
     });
   replySpyRef = harness.mediaHarnessReplySpy;
 }

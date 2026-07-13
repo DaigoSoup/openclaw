@@ -1,10 +1,11 @@
 // Telegram tests cover topic name cache plugin behavior.
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
+  getTopicName,
   resetTopicNameCacheForTest,
   setTelegramTopicNameStoreFactoryForTest,
-} from "./test-support/topic-name-cache.js";
-import { getTopicName, updateTopicName } from "./topic-name-cache.js";
+  updateTopicName,
+} from "./topic-name-cache.js";
 
 type TopicEntry = {
   name: string;

@@ -34,12 +34,16 @@ import {
   buildSenderName,
   extractTelegramLocation,
   getTelegramTextParts,
+  hasBotMentionInText,
   hasBotMention,
   isBinaryContent,
   normalizeForwardedContext,
+  renderTelegramTextEntities,
   resolveTelegramTextContent,
   resolveTelegramMediaPlaceholder,
   resolveTelegramRichMessageBody,
+  resolveTelegramRichMessagePlaceholder,
+  resolveTelegramRichMessageText,
   type TelegramForwardedContext,
   type TelegramTextEntity,
 } from "./body-helpers.js";
@@ -51,10 +55,15 @@ export {
   buildSenderName,
   extractTelegramLocation,
   getTelegramTextParts,
+  hasBotMentionInText,
   hasBotMention,
   isBinaryContent,
   normalizeForwardedContext,
+  renderTelegramTextEntities,
   resolveTelegramMediaPlaceholder,
+  resolveTelegramRichMessageBody,
+  resolveTelegramRichMessagePlaceholder,
+  resolveTelegramRichMessageText,
 };
 
 const TELEGRAM_GENERAL_TOPIC_ID = 1;
@@ -322,7 +331,7 @@ export class TelegramPairingStoreReadError extends Error {
 }
 
 // Could add bounded retries to absorb short FD-pressure spikes; deferred. See #85555.
-async function loadTelegramPairingStoreIfNeeded(params: {
+export async function loadTelegramPairingStoreIfNeeded(params: {
   cfg?: OpenClawConfig;
   allowFrom?: Array<string | number>;
   groupAllowOverride?: Array<string | number>;

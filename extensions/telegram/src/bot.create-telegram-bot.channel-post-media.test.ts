@@ -65,10 +65,13 @@ const {
   telegramBotDepsForTest,
   telegramBotRuntimeForTest,
 } = harness;
-const { createTelegramBotCore: createTelegramBotBase } = await import("./bot-core.js");
-const { runWithTelegramSpooledReplayUpdate, runWithTelegramUpdateProcessingFrame } =
-  await import("./bot-processing-outcome.js");
-const { withTelegramSpooledReplayUpdate } = await import("./test-support/spooled-replay.js");
+const { createTelegramBotCore: createTelegramBotBase, setTelegramBotRuntimeForTest } =
+  await import("./bot-core.js");
+const {
+  runWithTelegramSpooledReplayUpdate,
+  runWithTelegramUpdateProcessingFrame,
+  withTelegramSpooledReplayUpdate,
+} = await import("./bot-processing-outcome.js");
 const { MediaFetchError } = await import("./telegram-media.runtime.js");
 
 let createTelegramBot: (
@@ -242,11 +245,16 @@ describe("createTelegramBot channel_post media", () => {
       createTelegramBotBase({
         ...opts,
         telegramDeps: telegramBotDepsForTest,
-        botRuntime: telegramBotRuntimeForTest,
       });
+    setTelegramBotRuntimeForTest(
+      telegramBotRuntimeForTest as unknown as Parameters<typeof setTelegramBotRuntimeForTest>[0],
+    );
   });
 
   beforeEach(() => {
+    setTelegramBotRuntimeForTest(
+      telegramBotRuntimeForTest as unknown as Parameters<typeof setTelegramBotRuntimeForTest>[0],
+    );
     saveRemoteMedia.mockReset();
     saveRemoteMedia.mockImplementation(
       async (params: { fetchImpl: typeof fetch; maxBytes: number; url: string }) => {

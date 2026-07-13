@@ -10,10 +10,10 @@ import type { TelegramBotDeps } from "./bot-deps.js";
 import {
   resetTopicNameCacheForTest,
   setTelegramTopicNameStoreFactoryForTest,
-} from "./test-support/topic-name-cache.js";
+} from "./topic-name-cache.js";
 
 type TelegramBotRuntimeForTest = NonNullable<
-  Parameters<typeof import("./bot-core.js").createTelegramBotCore>[0]["botRuntime"]
+  Parameters<typeof import("./bot.js").setTelegramBotRuntimeForTest>[0]
 >;
 type DispatchReplyWithBufferedBlockDispatcherFn =
   typeof import("openclaw/plugin-sdk/reply-runtime").dispatchReplyWithBufferedBlockDispatcher;

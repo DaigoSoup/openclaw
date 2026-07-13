@@ -24,9 +24,8 @@ import {
   recordOutboundMessageForPromptContext as recordOutboundMessageForPromptContextActual,
   registerTelegramOutboundGroupHistoryRecorder,
 } from "./outbound-message-context.js";
-import { setTelegramRuntime } from "./runtime.js";
+import { clearTelegramRuntime, setTelegramRuntime } from "./runtime.js";
 import type { TelegramRuntime } from "./runtime.types.js";
-import { clearTelegramRuntime } from "./test-support/runtime.js";
 
 type DispatchReplyWithBufferedBlockDispatcherArgs = Parameters<
   TelegramBotDeps["dispatchReplyWithBufferedBlockDispatcher"]
@@ -190,7 +189,7 @@ vi.mock("./sticker-cache.js", () => ({
 }));
 
 let dispatchTelegramMessage: typeof import("./bot-message-dispatch.js").dispatchTelegramMessage;
-let resetTelegramReplyFenceForTests: typeof import("./telegram-reply-fence.js").resetTelegramReplyFenceForTests;
+let resetTelegramReplyFenceForTests: typeof import("./bot-message-dispatch.js").resetTelegramReplyFenceForTests;
 
 function installTelegramStateRuntimeForTest(): void {
   setTelegramRuntime({
@@ -244,8 +243,8 @@ describe("dispatchTelegramMessage draft streaming", () => {
   const trailingFinalStatusText = "Post-final plugin status";
 
   beforeAll(async () => {
-    ({ dispatchTelegramMessage } = await import("./bot-message-dispatch.js"));
-    ({ resetTelegramReplyFenceForTests } = await import("./telegram-reply-fence.js"));
+    ({ dispatchTelegramMessage, resetTelegramReplyFenceForTests } =
+      await import("./bot-message-dispatch.js"));
   });
 
   beforeEach(() => {
