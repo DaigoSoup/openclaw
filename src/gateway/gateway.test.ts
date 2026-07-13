@@ -815,7 +815,7 @@ module.exports = {
             message: "channel",
             options: [{ value: opts.channel ?? "none", label: opts.channel ?? "none" }],
           });
-          await prompter.outro(`configured ${String(choice)}`);
+          await prompter.outro(`configured ${choice}`);
         },
       });
 
