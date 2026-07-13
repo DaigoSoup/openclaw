@@ -1,4 +1,6 @@
 // Core runtime types define system, config, and task helper contracts for plugins.
+import type { ConfigMutationBase } from "../../config/mutation-types.js";
+import type { SessionPluginJsonValue } from "../../config/sessions/types.js";
 import type { HeartbeatRunResult } from "../../infra/heartbeat-wake.js";
 import type { LogLevel } from "../../logging/levels.js";
 import type { MediaUnderstandingRuntime } from "../../media-understanding/runtime-types.js";
@@ -33,13 +35,12 @@ type DeepReadonly<T> = T extends (...args: never[]) => unknown
 
 type RuntimeConfigAfterWrite = import("../../config/config.js").ConfigWriteAfterWrite;
 type RuntimeConfigReplaceResult = import("../../config/mutate.js").ConfigReplaceResult;
-type RuntimeConfigMutationBase = import("../../config/mutate.js").ConfigMutationBase;
 type RuntimeConfigMutationContext = {
   snapshot: import("../../config/types.openclaw.js").ConfigFileSnapshot;
   previousHash: string | null;
 };
 type RuntimeMutateConfigFileParams<T = void> = {
-  base?: RuntimeConfigMutationBase;
+  base?: ConfigMutationBase;
   baseHash?: string;
   afterWrite: RuntimeConfigAfterWrite;
   writeOptions?: RuntimeWriteConfigOptions;
@@ -55,6 +56,9 @@ type RuntimeReplaceConfigFileParams = {
   writeOptions?: RuntimeWriteConfigOptions;
 };
 type RuntimeSessionEntry = import("../../config/sessions/types.js").SessionEntry;
+type RuntimeSessionPluginExtensions =
+  | Record<string, Record<string, SessionPluginJsonValue>>
+  | undefined;
 type RuntimeSessionStoreReadParams = {
   agentId?: string;
   env?: NodeJS.ProcessEnv;
@@ -75,7 +79,7 @@ type RuntimeCreateSessionEntryResult = {
   entry: RuntimeSessionEntry;
 };
 type RuntimeCreateSessionEntryFinalPatch = {
-  pluginExtensions: RuntimeSessionEntry["pluginExtensions"];
+  pluginExtensions: RuntimeSessionPluginExtensions;
 };
 type RuntimeCreateSessionEntryBaseParams = {
   cfg: import("../../config/types.openclaw.js").OpenClawConfig;
@@ -87,14 +91,14 @@ type RuntimeCreateSessionEntryBaseParams = {
     | {
         agentHarnessId: string;
         modelSelectionLocked?: true;
-        pluginExtensions?: RuntimeSessionEntry["pluginExtensions"];
+        pluginExtensions?: RuntimeSessionPluginExtensions;
       }
     | {
         cliBackendId: string;
         model: string;
         cliSessionBinding: import("../../config/sessions/types.js").CliSessionBinding;
         modelSelectionLocked: true;
-        pluginExtensions?: RuntimeSessionEntry["pluginExtensions"];
+        pluginExtensions?: RuntimeSessionPluginExtensions;
         /** Registry-injected owner; plugin callers cannot select another owner. */
         pluginOwnerId?: string;
       };

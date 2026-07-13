@@ -31,7 +31,6 @@ import {
   type DiagnosticEventPayload,
 } from "../../infra/diagnostic-events.js";
 import {
-  resetGatewaySuspendCoordinatorForTest,
   resumeGatewaySuspend,
 } from "../../infra/gateway-suspend-coordinator.js";
 import { resetGatewayWorkAdmission } from "../../process/gateway-work-admission.js";
@@ -4378,7 +4377,6 @@ describe("gateway agent handler", () => {
       );
       expect(mocks.agentCommand).toHaveBeenCalledOnce();
     } finally {
-      resetGatewaySuspendCoordinatorForTest();
       resetGatewayWorkAdmission();
       vi.useRealTimers();
     }
@@ -4453,7 +4451,6 @@ describe("gateway agent handler", () => {
         status: "running",
       });
     } finally {
-      resetGatewaySuspendCoordinatorForTest();
       resetGatewayWorkAdmission();
       vi.useRealTimers();
     }
@@ -4526,7 +4523,6 @@ describe("gateway agent handler", () => {
         status: "running",
       });
     } finally {
-      resetGatewaySuspendCoordinatorForTest();
       resetGatewayWorkAdmission();
       vi.useRealTimers();
     }
