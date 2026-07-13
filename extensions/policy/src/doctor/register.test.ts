@@ -16,8 +16,6 @@ import {
   collectPolicyEvidence,
   createPolicyAttestation,
   policyDocumentHash,
-  scanPolicyIngress,
-  scanPolicyMcpServers,
 } from "../policy-state.js";
 import {
   evaluatePolicy,
@@ -28,6 +26,11 @@ import {
 let workspaceDir: string;
 let originalOpenClawHome: string | undefined;
 let originalOpenClawStateDir: string | undefined;
+
+const scanPolicyMcpServers = (cfg: object) =>
+  collectPolicyEvidence(cfg as Record<string, unknown>).mcpServers;
+const scanPolicyIngress = (cfg: object) =>
+  collectPolicyEvidence(cfg as Record<string, unknown>).ingress ?? [];
 
 function cfgWithPolicy(settings: Record<string, unknown> = {}): OpenClawConfig {
   return {
