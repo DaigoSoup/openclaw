@@ -609,6 +609,61 @@ describe("WorktreesPage lifecycle", () => {
     }
   });
 
+  it("aborts Clean up now when the pending limit commit fails", async () => {
+    vi.useFakeTimers();
+    try {
+      const request = vi.fn(async () => ({ worktrees: [] }));
+      const runtimeConfig = runtimeConfigStub({ maxCount: 25 });
+      runtimeConfig.patch = vi.fn(async () => false);
+      runtimeConfig.state.lastError = "save rejected";
+      const page = document.createElement("openclaw-worktrees-page") as WorktreesPageTestElement;
+      page.context = contextWithConfig(
+        gatewayWithClient({ request } as unknown as GatewayBrowserClient),
+        runtimeConfig,
+      );
+      document.body.append(page);
+      await vi.advanceTimersByTimeAsync(0);
+
+      page.setCleanupLimit("maxCount", 30);
+      await page.gc();
+
+      expect(request).not.toHaveBeenCalledWith("worktrees.gc", {});
+      expect(page.error).toBe("save rejected");
+      expect(page.loading).toBe(false);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("drops a pending edit when the runtime-config source is replaced", async () => {
+    vi.useFakeTimers();
+    try {
+      const request = vi.fn(async () => ({ worktrees: [] }));
+      const originalConfig = runtimeConfigStub({ maxCount: 25 });
+      const page = document.createElement("openclaw-worktrees-page") as WorktreesPageTestElement;
+      page.context = contextWithConfig(
+        gatewayWithClient({ request } as unknown as GatewayBrowserClient),
+        originalConfig,
+      );
+      document.body.append(page);
+      await vi.advanceTimersByTimeAsync(0);
+
+      page.setCleanupLimit("maxCount", 30);
+      const replacementConfig = runtimeConfigStub({ maxCount: 25 });
+      page.context = contextWithConfig(
+        gatewayWithClient({ request } as unknown as GatewayBrowserClient),
+        replacementConfig,
+      );
+      page.requestUpdate();
+      await vi.advanceTimersByTimeAsync(700);
+
+      expect(originalConfig.patch).not.toHaveBeenCalled();
+      expect(replacementConfig.patch).not.toHaveBeenCalled();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
   it("clamps cleanup edits to non-negative integers and surfaces patch failures", async () => {
     vi.useFakeTimers();
     try {

@@ -888,6 +888,11 @@ export class ManagedWorktreeService {
       return [];
     }
     const removed: string[] = [];
+    // Concurrent gc passes converge without a global lock: every pass sorts
+    // candidates identically (oldest first), remove() claims are exclusive,
+    // and a lost claim corrects the local totals below instead of advancing
+    // to another victim, so overlapping passes cannot each evict a different
+    // worktree for the same over-limit unit.
     const candidates = live
       .filter((record) => record.ownerKind === "workboard" || record.ownerKind === "session")
       .toSorted((a, b) => a.lastActiveAt - b.lastActiveAt);

@@ -81,6 +81,10 @@ class WorktreesPage extends OpenClawLightDomElement {
   // Debounced stepper commits: rapid clicks fold into one rate-limited config.patch.
   private cleanupCommitTimer: ReturnType<typeof setTimeout> | null = null;
   private pendingCleanupPatch: Partial<Record<CleanupLimitKey, number>> = {};
+  // Pending edits stay bound to the capability they were made against so a
+  // replaced gateway context never receives another gateway's limits.
+  private pendingCleanupSource: ApplicationContext["runtimeConfig"] | null = null;
+  private cleanupCommitInFlight: Promise<boolean> | null = null;
 
   private client: GatewayBrowserClient | null = null;
   private gatewayConnected = false;
@@ -151,6 +155,7 @@ class WorktreesPage extends OpenClawLightDomElement {
       this.cleanupMaxSizeGb = value;
     }
     this.pendingCleanupPatch[key] = value;
+    this.pendingCleanupSource = this.context?.runtimeConfig ?? null;
     if (this.cleanupCommitTimer) {
       clearTimeout(this.cleanupCommitTimer);
     }
@@ -160,39 +165,61 @@ class WorktreesPage extends OpenClawLightDomElement {
     }, CLEANUP_COMMIT_DELAY_MS);
   }
 
-  /** Cancels the debounce timer and commits any pending cleanup edit now. */
-  private async flushCleanupEdits() {
+  /**
+   * Cancels the debounce timer and commits pending cleanup edits now,
+   * including a commit that is already in flight. Returns false when any
+   * commit failed or was dropped, so callers can refuse to act on limits
+   * that never reached the gateway.
+   */
+  private async flushCleanupEdits(): Promise<boolean> {
     if (this.cleanupCommitTimer) {
       clearTimeout(this.cleanupCommitTimer);
       this.cleanupCommitTimer = null;
     }
-    await this.commitCleanupLimits();
+    const inFlight = this.cleanupCommitInFlight ? await this.cleanupCommitInFlight : true;
+    return (await this.commitCleanupLimits()) && inFlight;
   }
 
-  private async commitCleanupLimits() {
+  private async commitCleanupLimits(): Promise<boolean> {
     const patch = this.pendingCleanupPatch;
     if (Object.keys(patch).length === 0) {
-      return;
+      return true;
     }
+    const source = this.pendingCleanupSource;
     this.pendingCleanupPatch = {};
+    this.pendingCleanupSource = null;
     const runtimeConfig = this.context?.runtimeConfig;
-    if (!runtimeConfig) {
-      return;
+    if (!runtimeConfig || (source !== null && source !== runtimeConfig)) {
+      // Dropping an edit made against a replaced context beats writing one
+      // gateway's limits into another gateway's config.
+      return false;
     }
-    try {
-      await runtimeConfig.ensureLoaded();
-      const patched = await runtimeConfig.patch({
-        raw: { worktrees: { cleanup: patch } },
-        note: "worktrees: update cleanup limits",
-      });
-      if (!patched) {
-        this.error = runtimeConfig.state.lastError ?? t("worktrees.cleanupSaveFailed");
-        return;
+    const commit = (async () => {
+      try {
+        await runtimeConfig.ensureLoaded();
+        const patched = await runtimeConfig.patch({
+          raw: { worktrees: { cleanup: patch } },
+          note: "worktrees: update cleanup limits",
+        });
+        if (!patched) {
+          this.error = runtimeConfig.state.lastError ?? t("worktrees.cleanupSaveFailed");
+          return false;
+        }
+        await runtimeConfig.refresh();
+        this.syncCleanupFromConfig();
+        return true;
+      } catch (error) {
+        this.error = String(error);
+        return false;
       }
-      await runtimeConfig.refresh();
-      this.syncCleanupFromConfig();
-    } catch (error) {
-      this.error = String(error);
+    })();
+    this.cleanupCommitInFlight = commit;
+    try {
+      return await commit;
+    } finally {
+      if (this.cleanupCommitInFlight === commit) {
+        this.cleanupCommitInFlight = null;
+      }
     }
   }
 
@@ -365,10 +392,19 @@ class WorktreesPage extends OpenClawLightDomElement {
     }
     this.loading = true;
     this.error = null;
+    // A pending stepper edit must reach the config before gc reads it,
+    // otherwise Clean up now evicts against the previous limits.
+    const flushed = await this.flushCleanupEdits();
+    if (!this.isOperationScopeCurrent(scope)) {
+      return;
+    }
+    if (!flushed) {
+      // The failed commit already surfaced its error; gc must not run
+      // against limits the operator just tried to change.
+      this.loading = false;
+      return;
+    }
     try {
-      // A pending stepper edit must reach the config before gc reads it,
-      // otherwise Clean up now evicts against the previous limits.
-      await this.flushCleanupEdits();
       await scope.client.request("worktrees.gc", {});
     } catch (error) {
       if (this.isOperationScopeCurrent(scope)) {
