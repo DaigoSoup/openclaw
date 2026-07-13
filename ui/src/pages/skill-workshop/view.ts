@@ -300,7 +300,7 @@ function renderLifecycleTabs(props: SkillWorkshopProps) {
             class="sw-lifecycle-tab ${isActive ? "is-active" : ""}"
             @click=${() => props.onStatusFilterChange(status)}
           >
-            ${t(STATUS_LABEL[status])} <span class="sw-lifecycle-tab__count">${count}</span>
+            ${t(STATUS_LABEL[status])} <span class="settings-count">${count}</span>
           </button>
         `;
       })}
@@ -332,7 +332,7 @@ function renderQueue(
               (group) => html`
                 <div class="sw-queue__group">
                   ${t(group.label)}
-                  <span class="sw-queue__group-pill">${group.items.length}</span>
+                  <span class="settings-count">${group.items.length}</span>
                 </div>
                 ${group.items.map((proposal) => renderRow(props, proposal, selected))}
               `,

@@ -964,15 +964,15 @@ export class ConfigPage extends OpenClawLightDomElement {
     ] as const;
     return html`
       <div
-        class="config-view-toggle qs-segmented"
+        class="config-view-toggle settings-segmented"
         role="tablist"
         aria-label=${t("configPage.settingsView")}
       >
         ${modes.map(
           ([mode, label]) => html`
             <button
-              class="qs-segmented__btn ${this.settingsMode === mode
-                ? "qs-segmented__btn--active"
+              class="settings-segmented__btn ${this.settingsMode === mode
+                ? "settings-segmented__btn--active"
                 : ""}"
               role="tab"
               aria-selected=${this.settingsMode === mode}

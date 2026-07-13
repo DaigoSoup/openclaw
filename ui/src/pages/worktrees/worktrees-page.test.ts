@@ -436,10 +436,10 @@ describe("WorktreesPage lifecycle", () => {
     );
     await page.updateComplete;
 
-    const draftInputs = Array.from(
-      page.querySelectorAll<HTMLInputElement>(".worktrees-create input"),
+    const draftInputs = Array.from(page.querySelectorAll<HTMLInputElement>("input.settings-input"));
+    const createButton = page.querySelector<HTMLButtonElement>(
+      ".settings-group .settings-row button.btn--sm",
     );
-    const createButton = page.querySelector<HTMLButtonElement>(".worktrees-create button");
     expect(draftInputs).toHaveLength(3);
     expect(draftInputs.every((input) => input.disabled)).toBe(true);
     expect(createButton?.disabled).toBe(true);
@@ -456,9 +456,7 @@ describe("WorktreesPage lifecycle", () => {
 
     toggleButton?.click();
     await page.updateComplete;
-    const freshInputs = Array.from(
-      page.querySelectorAll<HTMLInputElement>(".worktrees-create input"),
-    );
+    const freshInputs = Array.from(page.querySelectorAll<HTMLInputElement>("input.settings-input"));
     expect(freshInputs).toHaveLength(3);
     expect(freshInputs.every((input) => !input.disabled)).toBe(true);
   });

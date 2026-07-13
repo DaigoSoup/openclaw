@@ -13,6 +13,7 @@ import {
   type ApplicationContext,
   type ApplicationGatewaySnapshot,
 } from "../../app/context.ts";
+import { renderSettingsWorkspace } from "../../components/settings-workspace.ts";
 import {
   formatMissingOperatorReadScopeMessage,
   isMissingOperatorReadScopeError,
@@ -665,7 +666,7 @@ class UsagePage extends OpenClawLightDomElement {
           <div class="page-sub">${subtitleForRoute("usage")}</div>
         </div>
       </section>
-      ${renderUsage(props)}
+      ${renderSettingsWorkspace(renderUsage(props))}
     `;
   }
 }

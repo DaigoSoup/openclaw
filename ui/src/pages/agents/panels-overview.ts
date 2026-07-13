@@ -6,8 +6,9 @@ import type {
   AgentsListResult,
   ModelCatalogEntry,
 } from "../../api/types.ts";
-import { t } from "../../i18n/index.ts";
+import { renderSettingsRow, renderSettingsSection } from "../../components/settings-ui.ts";
 import "../../components/tooltip.ts";
+import { t } from "../../i18n/index.ts";
 import {
   buildModelOptions,
   normalizeModelValue,
@@ -105,14 +106,12 @@ export function renderAgentOverview(params: {
   };
 
   return html`
-    <section class="card">
-      <div class="card-title">${t("agents.overview.title")}</div>
-      <div class="card-sub">${t("agents.overview.subtitle")}</div>
-
-      <div class="agents-overview-grid" style="margin-top: 16px;">
-        <div class="agent-kv">
-          <div class="label">${t("agents.context.workspace")}</div>
-          <div>
+    ${renderSettingsSection(
+      { title: t("agents.overview.title"), description: t("agents.overview.subtitle") },
+      html`
+        <dl class="settings-kv">
+          <dt>${t("agents.context.workspace")}</dt>
+          <dd>
             <openclaw-tooltip .content=${t("agents.context.openFilesTab")}>
               <button
                 type="button"
@@ -123,48 +122,55 @@ export function renderAgentOverview(params: {
                 ${workspace}
               </button>
             </openclaw-tooltip>
-          </div>
-        </div>
-        <div class="agent-kv">
-          <div class="label">${t("agents.context.primaryModel")}</div>
-          <div class="mono">${model}</div>
-        </div>
-        <div class="agent-kv">
-          <div class="label">${t("agents.context.runtime")}</div>
-          <div class="mono">${runtime}</div>
-        </div>
-        <div class="agent-kv">
-          <div class="label">${t("agents.context.thinkingDefault")}</div>
-          <div class="mono">${thinkingDefault}</div>
-        </div>
-        <div class="agent-kv">
-          <div class="label">${t("agents.context.skillsFilter")}</div>
-          <div>
+          </dd>
+          <dt>${t("agents.context.primaryModel")}</dt>
+          <dd><code>${model}</code></dd>
+          <dt>${t("agents.context.runtime")}</dt>
+          <dd><code>${runtime}</code></dd>
+          <dt>${t("agents.context.thinkingDefault")}</dt>
+          <dd><code>${thinkingDefault}</code></dd>
+          <dt>${t("agents.context.skillsFilter")}</dt>
+          <dd>
             ${skillFilter
               ? t("agents.overview.selectedSkills", { count: String(skillCount) })
               : t("agents.overview.allSkills")}
-          </div>
-        </div>
-      </div>
-
-      ${configDirty
-        ? html`
-            <div class="callout warn" style="margin-top: 16px">
-              ${t("agents.overview.unsavedConfig")}
-            </div>
-          `
-        : nothing}
-
-      <div class="agent-model-select" style="margin-top: 20px;">
-        <div class="label">${t("agents.overview.modelSelection")}</div>
-        <div class="agent-model-fields">
-          <label class="field">
-            <span>
-              ${isDefault
-                ? t("agents.overview.primaryModelDefault")
-                : t("agents.overview.primaryModel")}
-            </span>
+          </dd>
+        </dl>
+      `,
+    )}
+    ${configDirty
+      ? html`<div class="callout warn">${t("agents.overview.unsavedConfig")}</div>`
+      : nothing}
+    ${renderSettingsSection(
+      {
+        title: t("agents.overview.modelSelection"),
+        actions: html`
+          <button
+            type="button"
+            class="btn btn--sm"
+            ?disabled=${configLoading}
+            @click=${onConfigReload}
+          >
+            ${t("common.reloadConfig")}
+          </button>
+          <button
+            type="button"
+            class="btn btn--sm primary"
+            ?disabled=${configSaving || !configDirty}
+            @click=${onConfigSave}
+          >
+            ${configSaving ? t("common.saving") : t("common.save")}
+          </button>
+        `,
+      },
+      html`
+        ${renderSettingsRow({
+          title: isDefault
+            ? t("agents.overview.primaryModelDefault")
+            : t("agents.overview.primaryModel"),
+          control: html`
             <select
+              class="settings-select"
               .value=${selectedPrimary ?? ""}
               ?disabled=${disabled}
               @change=${(e: Event) =>
@@ -190,9 +196,12 @@ export function renderAgentOverview(params: {
                 selectedPrimary,
               )}
             </select>
-          </label>
-          <div class="field">
-            <span>${t("agents.overview.fallbacks")}</span>
+          `,
+        })}
+        ${renderSettingsRow({
+          title: t("agents.overview.fallbacks"),
+          stacked: true,
+          control: html`
             <div
               class="agent-chip-input"
               @click=${(e: Event) => {
@@ -232,27 +241,9 @@ export function renderAgentOverview(params: {
                 }}
               />
             </div>
-          </div>
-        </div>
-        <div class="agent-model-actions">
-          <button
-            type="button"
-            class="btn btn--sm"
-            ?disabled=${configLoading}
-            @click=${onConfigReload}
-          >
-            ${t("common.reloadConfig")}
-          </button>
-          <button
-            type="button"
-            class="btn btn--sm primary"
-            ?disabled=${configSaving || !configDirty}
-            @click=${onConfigSave}
-          >
-            ${configSaving ? t("common.saving") : t("common.save")}
-          </button>
-        </div>
-      </div>
-    </section>
+          `,
+        })}
+      `,
+    )}
   `;
 }
