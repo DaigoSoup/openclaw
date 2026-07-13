@@ -3807,7 +3807,7 @@ describe("shouldSkipLocalCliCredentialEpoch", () => {
       message: { role: "user", content: "gateway-only history", timestamp: 1 },
     });
     try {
-      setClaudeCliBackendForPrepareTest({
+      setCliBackendForPrepareTest({
         bundleMcp: true,
         liveSession: true,
         reseedFromRawTranscriptWhenUncompacted: true,
