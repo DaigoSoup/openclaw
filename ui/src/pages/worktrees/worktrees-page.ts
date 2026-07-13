@@ -111,11 +111,24 @@ class WorktreesPage extends OpenClawLightDomElement {
     .effect(
       () => this.context?.runtimeConfig,
       (runtimeConfig) => {
+        // A replaced capability invalidates drafts made against the old one;
+        // controls stay inert until the new snapshot populates them.
+        this.resetCleanupDraft();
         void runtimeConfig.ensureLoaded();
         this.syncCleanupFromConfig();
         return runtimeConfig.subscribe(() => this.syncCleanupFromConfig());
       },
     );
+
+  private resetCleanupDraft() {
+    if (this.cleanupCommitTimer) {
+      clearTimeout(this.cleanupCommitTimer);
+      this.cleanupCommitTimer = null;
+    }
+    this.pendingCleanupPatch = {};
+    this.pendingCleanupSource = null;
+    this.cleanupLoaded = false;
+  }
 
   override disconnectedCallback() {
     this.subscriptions.clear();
@@ -194,6 +207,12 @@ class WorktreesPage extends OpenClawLightDomElement {
       // gateway's limits into another gateway's config.
       return false;
     }
+    // A failed save re-queues the draft (newer edits win per key) so a later
+    // flush retries instead of reporting the unsaved limits as committed.
+    const restoreDraft = () => {
+      this.pendingCleanupPatch = { ...patch, ...this.pendingCleanupPatch };
+      this.pendingCleanupSource = this.pendingCleanupSource ?? source;
+    };
     const commit = (async () => {
       try {
         await runtimeConfig.ensureLoaded();
@@ -203,6 +222,7 @@ class WorktreesPage extends OpenClawLightDomElement {
         });
         if (!patched) {
           this.error = runtimeConfig.state.lastError ?? t("worktrees.cleanupSaveFailed");
+          restoreDraft();
           return false;
         }
         await runtimeConfig.refresh();
@@ -210,6 +230,7 @@ class WorktreesPage extends OpenClawLightDomElement {
         return true;
       } catch (error) {
         this.error = String(error);
+        restoreDraft();
         return false;
       }
     })();

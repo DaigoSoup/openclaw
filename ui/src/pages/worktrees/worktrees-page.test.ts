@@ -625,8 +625,14 @@ describe("WorktreesPage lifecycle", () => {
       await vi.advanceTimersByTimeAsync(0);
 
       page.setCleanupLimit("maxCount", 30);
+      // The debounced save fails first; the draft must stay dirty so a later
+      // Clean up now retries the save instead of running with stale limits.
+      await vi.advanceTimersByTimeAsync(700);
+      expect(runtimeConfig.patch).toHaveBeenCalledTimes(1);
+
       await page.gc();
 
+      expect(runtimeConfig.patch).toHaveBeenCalledTimes(2);
       expect(request).not.toHaveBeenCalledWith("worktrees.gc", {});
       expect(page.error).toBe("save rejected");
       expect(page.loading).toBe(false);

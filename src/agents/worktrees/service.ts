@@ -873,9 +873,11 @@ export class ManagedWorktreeService {
           sizes.set(record.id, bytes);
           totalBytes += bytes;
         } catch (error) {
-          // Unmeasurable trees stay out of the size total so an I/O failure
-          // cannot masquerade as zero bytes and defeat the configured limit;
-          // count-based eviction still covers the record.
+          // Unmeasurable trees stay out of the size total, making it a lower
+          // bound: measured worktrees stay capped while no worktree is ever
+          // evicted off a bogus zero-byte reading. Aborting enforcement here
+          // instead would let one unreadable directory disable the whole cap;
+          // the count limit still bounds unmeasurable worktrees.
           log.warn(`worktree size measurement failed for ${record.id}: ${String(error)}`);
         }
       }
@@ -887,18 +889,39 @@ export class ManagedWorktreeService {
     if (!overLimit()) {
       return [];
     }
+    // Any concurrent removal (manual delete, run-end cleanup, competing gc)
+    // must shrink the accounted pressure before the next destructive step, so
+    // totals are recomputed from the registry per iteration. Sizes reuse the
+    // up-front measurements; worktrees created after them are too fresh to be
+    // eviction candidates in this pass.
+    const refreshTotals = () => {
+      const liveIds = new Set(
+        listRegistryWorktrees(this.env)
+          .filter((record) => record.removedAt === undefined)
+          .map((record) => record.id),
+      );
+      liveCount = liveIds.size;
+      if (limits.maxTotalSizeBytes !== undefined) {
+        totalBytes = 0;
+        for (const [id, bytes] of sizes) {
+          if (liveIds.has(id)) {
+            totalBytes += bytes;
+          }
+        }
+      }
+      return liveIds;
+    };
     const removed: string[] = [];
-    // Concurrent gc passes converge without a global lock: every pass sorts
-    // candidates identically (oldest first), remove() claims are exclusive,
-    // and a lost claim corrects the local totals below instead of advancing
-    // to another victim, so overlapping passes cannot each evict a different
-    // worktree for the same over-limit unit.
     const candidates = live
       .filter((record) => record.ownerKind === "workboard" || record.ownerKind === "session")
       .toSorted((a, b) => a.lastActiveAt - b.lastActiveAt);
     for (const record of candidates) {
+      const liveIds = refreshTotals();
       if (!overLimit()) {
         break;
+      }
+      if (!liveIds.has(record.id)) {
+        continue;
       }
       try {
         if (await this.isProtectedFromAutoRemoval(record, params.isOwnerActive)) {
@@ -906,22 +929,12 @@ export class ManagedWorktreeService {
         }
         await this.remove({ id: record.id, reason: "limit-gc" });
       } catch (error) {
-        const current = getRegistryWorktree(this.env, record.id);
-        if (!current || current.removedAt !== undefined) {
-          // A concurrent cleanup removed this record between our listing and the
-          // failed claim. Count that removal here, or this pass would evict an
-          // extra worktree against a stale total.
-          liveCount -= 1;
-          totalBytes -= sizes.get(record.id) ?? 0;
-          continue;
-        }
         log.warn(`cleanup limit removal failed for ${record.id}: ${String(error)}`);
         continue;
       }
       removed.push(record.id);
-      liveCount -= 1;
-      totalBytes -= sizes.get(record.id) ?? 0;
     }
+    refreshTotals();
     if (overLimit()) {
       log.warn(
         `worktree cleanup limits still exceeded after evicting ${removed.length}; remaining worktrees are protected or manual`,
